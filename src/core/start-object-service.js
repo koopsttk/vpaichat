@@ -16,7 +16,7 @@ const path = require("path");
 
 const { readStartObject, resolveStartObjectPath } = require("./start-object-loader");
 const { utcStampTight, ensureDir, writeJSONAtomic } = require("../utils/file-helpers");
-const { getIniConfig } = require("./config.service");
+const { getIniConfig, getAppConfig } = require("./config.service");
 
 /** dataDir(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function dataDir() {
@@ -101,4 +101,5 @@ module.exports = {
   listBackups,
   restore,
   getStartObject,
+  getAppConfig,
 };
