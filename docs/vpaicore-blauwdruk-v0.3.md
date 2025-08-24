@@ -26,10 +26,10 @@ Distributiepakketten:
 
 De detaildocumentatie staat in [`docs/`](docs/):
 
-- 📘 [ARCHITECTURE.md](docs/ARCHITECTURE.md) – Overzicht modules en opzet  
-- ⚙️ [CONFIG.md](docs/CONFIG.md) – Configuratie en voorbeelden  
-- 🗺️ [ROADMAP.md](docs/ROADMAP.md) – Takenlijst en backlog  
-- 📖 [README.md](docs/README.md) – Startpunt documentatie  
+- 📘 [architecture.md](docs/architecture.md) – Overzicht modules en opzet  
+- ⚙️ [config.md](docs/config.md) – Configuratie en voorbeelden  
+- 🗺️ [roadmap.md](docs/roadmap.md) – Takenlijst en backlog  
+- 📖 [readme.md](docs/readme.md) – Startpunt documentatie  
 
 ### ➕ Extra documentatie
 - 📝 [CHANGELOG.md](docs/CHANGELOG.md) – Volledige wijzigingsgeschiedenis  

@@ -15,7 +15,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { ensureDir, writeJSONAtomic, utcStampTight } = require("../utils/file-helpers");
-const { checkIniConfig, ensureDataDirectory } = require("./appInit");
+const { checkIniConfig, ensureDataDirectory } = require("./app-init");
 
 const { dataDir } = (function init() {
   const cfg = checkIniConfig();

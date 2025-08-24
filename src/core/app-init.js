@@ -1,4 +1,4 @@
-// src/core/appInit.js
+// src/core/app-init.js
 
 const path = require('path');
 const fs = require('fs');

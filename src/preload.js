@@ -23,8 +23,8 @@ const api = {
   setApiKey: (key) => ipcRenderer.invoke("key:testAndSave", key),
   getCompactIndex: () => ipcRenderer.invoke("index:get"),
   getKeyStatus: async () => {
-    const status = await ipcRenderer.invoke("core:getKeyStatus");
-    console.log("[preload] getKeyStatus returns:", status);
+  const status = await ipcRenderer.invoke("core:getKeyStatus");
+  console.log("[preload] getKeyStatus returns:", status);
     return status;
   }
 };

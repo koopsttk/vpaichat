@@ -8,10 +8,10 @@
 
 ## Docs-map (`/docs`)
 Bevat nu:
-- `README.md` – startpunt documentatie
-- `ARCHITECTURE.md` – module & opzet overzicht
-- `CONFIG.md` – configuratie & voorbeelden
-- `ROADMAP.md` – takenlijst & backlog
+- `readme.md` – startpunt documentatie
+- `architecture.md` – module & opzet overzicht
+- `config.md` – configuratie & voorbeelden
+- `roadmap.md` – takenlijst & backlog
 - `CHANGELOG.md` – wijzigingsgeschiedenis
 - `CONVENTIONS.md` – afspraken & structuur
 - `PROMPTING.md` – prompting handleiding
@@ -23,7 +23,7 @@ Bevat nu:
 ## Distributiepakketten
 - 📦 `aichat_docs.zip` – alle documentatie
 - 📦 `aichat_annotated.zip` – code met commentaar
-- 📦 `VPAICore_Blauwdruk.md` – hoofddocument
+- 📦 `vpaicore-blauwdruk-v0.3.md` – hoofddocument
 
 ---
 ℹ️ Gebruik dit overzicht als **startpunt** voor AI en ontwikkelaars.
