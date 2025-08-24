@@ -15,6 +15,7 @@ import { API, addMessage, toast } from "./api.js";
 import { getSystemPrompt } from "./seed.js";
 
 let lastAiMsgEl = null;
+let typingTimeout = null;
 // Toon typende AI-animatie na user input
 export async function handleUserInput(rawText) {
   const api = API();
@@ -104,10 +105,19 @@ export async function handleUserInput(rawText) {
     return;
   }
 
+
   addMessage("user", userMsg);
 
   // Typ animatie tonen voor AI
   lastAiMsgEl = addMessage("ai", "", { typing: true });
+  // Typing cleanup: verwijder na 20s als er geen antwoord komt
+  if (typingTimeout) clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    if (lastAiMsgEl && lastAiMsgEl.classList && lastAiMsgEl.classList.contains("typing")) {
+      lastAiMsgEl.remove();
+      lastAiMsgEl = null;
+    }
+  }, 20000);
 
   // Command: "open <rol> <naam?>"
   if (/^open\s+/i.test(userMsg)) {
@@ -155,23 +165,17 @@ export async function handleUserInput(rawText) {
 /** onStreamChunk(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 export function onStreamChunk(chunk) {
   if (!chunk) return;
-  if (!lastAiMsgEl || !lastAiMsgEl.isConnected) {
-    lastAiMsgEl = addMessage("ai", chunk);
-    return;
+  if (typingTimeout) {
+    clearTimeout(typingTimeout);
+    typingTimeout = null;
   }
-  // Vervang typ animatie door echte tekst als eerste chunk binnenkomt
-  if (lastAiMsgEl.classList.contains("typing")) {
-    // Vervang door nieuwe AI-bericht met eerste chunk
-    lastAiMsgEl = addMessage("ai", chunk);
-  } else {
-    // Voeg chunk toe aan bestaande AI-bericht (msg-content)
-    const content = lastAiMsgEl.querySelector('.msg-content');
-    if (content) {
-      content.textContent += chunk;
-    } else {
-      lastAiMsgEl.textContent += chunk;
-    }
+  // Verwijder het oude 'typing' bericht als die er nog is
+  if (lastAiMsgEl && lastAiMsgEl.classList && lastAiMsgEl.classList.contains("typing")) {
+    lastAiMsgEl.remove();
+    lastAiMsgEl = null;
   }
+  // Voeg het AI-antwoord toe als nieuw bericht
+  lastAiMsgEl = addMessage("ai", chunk);
   const chatEl = document.getElementById("chat");
   if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
 }

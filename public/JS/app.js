@@ -15,6 +15,7 @@ import { API, onSafe, toast } from "./api.js";
 import { loadSeedAndBindUI } from "./seed.js";
 import { refreshStatus, refreshKeyStatus } from "./status.js";
 import { handleUserInput, onStreamChunk } from "./chat.js";
+import { countTokens, updateTokenStatus } from "./token.js";
 
 /** autoGrowTextarea(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function autoGrowTextarea(e) {
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const txt = inputEl.value;
     inputEl.value = "";
     inputEl.style.height = "auto";
+    updateTokenStatus(countTokens(txt));
     await handleUserInput(txt);
   });
 
@@ -52,10 +54,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       const txt = inputEl.value;
       inputEl.value = "";
       inputEl.style.height = "auto";
+      updateTokenStatus(countTokens(txt));
       handleUserInput(txt);
     }
   });
-  onSafe(inputEl, "input", autoGrowTextarea);
+  onSafe(inputEl, "input", (e) => {
+    autoGrowTextarea(e);
+    updateTokenStatus(countTokens(inputEl.value));
+  });
 
   // 4) Live updates vanuit main via preload-bridge (optioneel)
   api.onSetTitle?.((t) => {
@@ -66,7 +72,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const el = document.getElementById("appDescription") || document.querySelector("[data-start-desc]");
     if (el) el.textContent = d || el.textContent;
   });
-  api.onAiChunk?.((chunk) => onStreamChunk(chunk));
+  api.onAiChunk?.((chunk) => {
+    updateTokenStatus(countTokens(chunk));
+    onStreamChunk(chunk);
+  });
 
   // 5) API-key formulier (optioneel)
   onSafe(form, "submit", async (e) => {
