@@ -59,6 +59,14 @@
 .light-theme code {
   color: #232323;
 }
+
+/* Ensure hljs themes are respected and provide light-theme token fallbacks */
+.light-theme .codeblock { background: linear-gradient(180deg, #fff 0%, #f6f6f6 100%); border-color: #e1e1e1; }
+.light-theme .codeblock code { color: #222; }
+.light-theme .token.comment { color: #6a737d; }
+.light-theme .token.keyword { color: #b85b00; }
+.light-theme .token.string { color: #0b7a3a; }
+.light-theme .token.number { color: #b45309; }
 .light-theme #inputBar {
   background-color: #e6e7eb;
   border-top: 1px solid #cfd2da;

@@ -3,6 +3,17 @@ function setTheme(theme) {
   document.body.classList.toggle('light-theme', theme === 'light');
   document.getElementById('theme-toggle').textContent = theme === 'light' ? '☀️' : '🌙';
   localStorage.setItem('theme', theme);
+  // Swap highlight.js theme CSS
+  try {
+    const hljsLink = document.getElementById('hljs-theme');
+    if (hljsLink) {
+      // Choose theme files located in public/vendor/
+      hljsLink.href = theme === 'light' ? 'vendor/highlight.default.css' : 'vendor/highlight.atom-one-dark.css';
+    }
+  } catch (e) {
+    // ignore — hljs theme is progressive enhancement
+    console.warn('Could not swap hljs theme', e);
+  }
 }
 
 function toggleTheme() {

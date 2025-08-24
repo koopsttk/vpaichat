@@ -118,7 +118,7 @@ export function renderMarkdown(text) {
   inCode = false;
   codeLang = '';
   // wrap the code block in a container so we can add a per-block copy button
-  return `<div class="codewrap"><div class="codebar"><button class="copy-code" data-lang="${escapeHtml(codeLang)}" title="Kopieer code">📋</button></div><pre class="codeblock"><code data-lang="${escapeHtml(codeLang)}">${highlighted}</code></pre></div>`;
+  return `<div class="codewrap"><div class="codebar"><button class="copy-code" data-lang="${escapeHtml(codeLang)}" title="Kopieer code">📋</button></div><pre class="codeblock"><code class="hljs" data-lang="${escapeHtml(codeLang)}">${highlighted}</code></pre></div>`;
   }
 
   let openFence = '';
