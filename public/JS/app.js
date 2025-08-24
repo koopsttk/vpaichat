@@ -106,6 +106,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     await refreshStatus();
     toast("API-key opgeslagen", "ok");
   });
+
+  // Delegated handler: per-codeblock copy button
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest?.('.copy-code');
+    if (!btn) return;
+    const wrap = btn.closest('.codewrap');
+    if (!wrap) return;
+    const codeEl = wrap.querySelector('pre.codeblock code');
+    if (!codeEl) return;
+    const text = codeEl.innerText || codeEl.textContent || '';
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.innerHTML;
+      btn.innerHTML = '✔️';
+      setTimeout(() => { btn.innerHTML = old; }, 1200);
+    }).catch(() => {
+      toast('Kon code niet kopiëren', 'error');
+    });
+  });
 }); // <-- deze regel sluit alles netjes af
 
 window.addEventListener("DOMContentLoaded", () => {

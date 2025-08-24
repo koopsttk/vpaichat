@@ -10,6 +10,7 @@
     "electron": "^30.5.1"
   },
   "dependencies": {
+    "highlight.js": "^11.11.1",
     "ini": "^5.0.0",
     "openai": "^5.12.2",
     "uuid": "^11.1.0"

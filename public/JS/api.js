@@ -20,6 +20,8 @@ export function onSafe(el, evt, fn, opts) {
   if (el) el.addEventListener(evt, fn, opts);
 }
 /** addMessage(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
+import { renderMarkdown } from './markdown.js';
+
 export function addMessage(role, text = "", opts = {}) {
   const chatEl = document.getElementById("chat");
   if (!chatEl) return null;
@@ -31,9 +33,10 @@ export function addMessage(role, text = "", opts = {}) {
     // AI-berichten krijgen een kopieerknop
     if (role === "ai") {
       // hoofdtekst
-      const content = document.createElement("span");
+      const content = document.createElement("div");
       content.className = "msg-content";
-      content.textContent = text;
+      // render markdown -> safe because renderMarkdown escapes
+      content.innerHTML = renderMarkdown(text);
       m.appendChild(content);
       // kopieerknop
       const btn = document.createElement("button");
@@ -42,8 +45,8 @@ export function addMessage(role, text = "", opts = {}) {
       btn.innerHTML = '📋';
       btn.onclick = function(e) {
         e.stopPropagation();
-        // kopieer alleen de tekst (zonder knop)
-        navigator.clipboard.writeText(content.textContent);
+        // kopieer alleen de tekst (zonder knop). Use innerText for readable text
+        navigator.clipboard.writeText(content.innerText);
         btn.innerHTML = '✔️';
         setTimeout(() => { btn.innerHTML = '📋'; }, 1200);
       };

@@ -215,6 +215,33 @@ code {
   color: #e6e6e6;
 }
 
+/* Markdown / codeblock styling */
+.codeblock {
+  background: linear-gradient(180deg, #202124 0%, #2b2d31 100%);
+  border: 1px solid #3b3d42;
+  padding: 10px;
+  border-radius: 6px;
+  overflow: auto;
+  margin: 8px 0;
+}
+.codeblock code { display: block; white-space: pre; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; font-size:1.05rem; line-height:1.45; }
+.inline { background: rgba(255,255,255,0.03); padding:3px 7px; border-radius:4px; font-family: monospace; font-size:0.98rem; }
+
+/* token colors */
+.token.comment { color: #6a737d; }
+.token.keyword { color: #ffb86b; font-weight:600; }
+.token.string { color: #98c379; }
+.token.number { color: #d19a66; }
+
+/* codewrap with copy button */
+.codewrap { position: relative; margin: 8px 0; }
+.codebar { position: absolute; right: 8px; top: 6px; z-index: 10; }
+.copy-code { background: rgba(0,0,0,0.35); border: none; color: #ddd; padding: 4px 6px; border-radius: 6px; cursor: pointer; }
+.copy-code:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.codewrap .codeblock { margin-top: 28px; }
+
+
+
 #inputBar {
   display: flex;
   padding: 12px;
