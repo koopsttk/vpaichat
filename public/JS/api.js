@@ -28,7 +28,29 @@ export function addMessage(role, text = "", opts = {}) {
   if (opts.typing) {
     m.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
   } else {
-    m.textContent = text;
+    // AI-berichten krijgen een kopieerknop
+    if (role === "ai") {
+      // hoofdtekst
+      const content = document.createElement("span");
+      content.className = "msg-content";
+      content.textContent = text;
+      m.appendChild(content);
+      // kopieerknop
+      const btn = document.createElement("button");
+      btn.className = "copyBtn";
+      btn.title = "Kopieer";
+      btn.innerHTML = '📋';
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        // kopieer alleen de tekst (zonder knop)
+        navigator.clipboard.writeText(content.textContent);
+        btn.innerHTML = '✔️';
+        setTimeout(() => { btn.innerHTML = '📋'; }, 1200);
+      };
+      m.appendChild(btn);
+    } else {
+      m.textContent = text;
+    }
   }
   chatEl.appendChild(m);
   chatEl.scrollTop = chatEl.scrollHeight;

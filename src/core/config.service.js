@@ -60,9 +60,7 @@ function getAppConfig() {
       .map(w => w.trim().toLowerCase())
       .filter(Boolean);
   }
-  // Debug: log forbiddenWords en enableForbiddenWords
-  console.log("[getAppConfig] forbiddenWords:", forbiddenWords);
-  console.log("[getAppConfig] enableForbiddenWords:", enableForbiddenWords);
+  // Debug logging verwijderd
   const maxLines = parseInt(cfg.kv["chat.max_lines"] || cfg.kv["max_lines"] || 5, 10);
   const allowLinks = (cfg.kv["chat.allow_links"] || cfg.kv["allow_links"] || "false").toString().toLowerCase() === "true";
   const allowUnicode = (cfg.kv["chat.allow_unicode"] || cfg.kv["allow_unicode"] || "true").toString().toLowerCase() === "true";
