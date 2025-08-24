@@ -122,6 +122,9 @@ export function renderMarkdown(text) {
   }
 
   let openFence = '';
+  let inList = false;
+  let listType = '';
+  let lastWasEmpty = false;
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i];
     const fenceMatch = l.match(/^(`{1,3})\s*(\S+)?\s*$/);
@@ -147,6 +150,45 @@ export function renderMarkdown(text) {
       codeBuf.push(l);
       continue;
     }
+    // Empty line handling: if we're inside a list, don't close it on blank lines
+    if (/^\s*$/.test(l)) {
+      if (inList) { lastWasEmpty = true; continue; }
+      if (!lastWasEmpty) { out += '<p></p>' + '\n'; lastWasEmpty = true; }
+      continue;
+    }
+
+    // Lists: ordered (1. ) and unordered (- or *)
+    const olMatch = l.match(/^\s*(\d+)\.\s+(.*)$/);
+    const ulMatch = l.match(/^\s*[-*]\s+(.*)$/);
+    if (olMatch || ulMatch) {
+      let itemText = olMatch ? olMatch[2] : ulMatch[1];
+      itemText = itemText.replace(/[\s\u00A0]+$/u, ''); // trim trailing spaces/non-break spaces
+      const curType = olMatch ? 'ol' : 'ul';
+      if (!inList) {
+        inList = true;
+        listType = curType;
+        out += `<${listType}>` + '\n';
+      } else if (inList && listType !== curType) {
+        out += `</${listType}>` + '\n';
+        listType = curType;
+        out += `<${listType}>` + '\n';
+      }
+      // inline formatting for list item
+      let processedItem = escapeHtml(itemText)
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
+        .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer noopener">$1</a>');
+      out += `<li>${processedItem}</li>` + '\n';
+      lastWasEmpty = false;
+      continue;
+    } else {
+      if (inList) {
+        out += `</${listType}>` + '\n';
+        inList = false;
+        listType = '';
+      }
+    }
     // headings
     const h = l.match(/^\s{0,3}(#{1,6})\s+(.*)$/);
     if (h) {
@@ -156,11 +198,14 @@ export function renderMarkdown(text) {
     }
     // horizontal rule
     if (/^\s*([-*_]){3,}\s*$/.test(l)) { out += '<hr/>' + '\n'; continue; }
-    // empty line -> paragraph break
-    if (/^\s*$/.test(l)) { out += '<p></p>' + '\n'; continue; }
+  // empty line -> paragraph break (collapse multiple empties)
+  if (/^\s*$/.test(l)) { if (!lastWasEmpty) { out += '<p></p>' + '\n'; lastWasEmpty = true; } continue; }
 
     // inline formatting: bold, italic, inline code, links
-    let processed = escapeHtml(l)
+  lastWasEmpty = false;
+  // trim trailing spaces on normal lines too
+  const lineTrimmed = l.replace(/[\s\u00A0]+$/u, '');
+  let processed = escapeHtml(lineTrimmed)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
@@ -171,6 +216,11 @@ export function renderMarkdown(text) {
 
   if (inCode) {
     out += flushCode();
+  }
+
+  // close any open list at EOF
+  if (inList) {
+    out += `</${listType}>` + '\n';
   }
 
   return out;

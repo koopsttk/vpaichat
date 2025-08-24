@@ -247,7 +247,24 @@ code {
 .copy-code { background: rgba(0,0,0,0.35); border: none; color: #ddd; padding: 4px 6px; border-radius: 6px; cursor: pointer; }
 .copy-code:hover { background: rgba(255,255,255,0.06); color: #fff; }
 .codewrap .codeblock { margin-top: 28px; }
-
+ 
+ 
+/* Compacte lijsten en paragrafen binnen chatberichten */
+/* Beperk de marge alleen binnen berichtinhoud zodat de rest van de site onaangetast blijft */
+.msg-content p {
+  margin: 0; /* reset default paragraph margins inside messages */
+  line-height: 1.35;
+}
+.msg-content li {
+  margin: 0 0 0.25rem 0; /* kleine ondermarge per list-item */
+  padding: 0;
+}
+.msg-content p + p { margin-top: 0.25rem; }
+.msg-content p:empty { margin: 0; height: 0.25rem; }
+.msg-content ol, .msg-content ul {
+  margin: 0 0 0.5rem 0; /* compact afstand rond volledige lijst */
+  padding-left: 1.2rem; /* behoud inspringing voor leesbaarheid */
+}
 
 
 #inputBar {
