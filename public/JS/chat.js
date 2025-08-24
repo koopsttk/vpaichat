@@ -132,7 +132,7 @@ export async function handleUserInput(rawText) {
   try {
     const fn = api.aiChat;
     if (typeof fn !== "function") {
-      lastAiMsgEl.textContent = "❌ aiChat() niet beschikbaar";
+      lastAiMsgEl = addMessage("ai", "❌ aiChat() niet beschikbaar");
       toast("aiChat() ontbreekt in preload API", "error");
       return;
     }
@@ -143,11 +143,11 @@ export async function handleUserInput(rawText) {
 
     const res = await fn(msgs, "gpt-4o-mini");
     if (res?.error) {
-      lastAiMsgEl.textContent = "❌ " + res.error;
+      lastAiMsgEl = addMessage("ai", "❌ " + res.error);
       toast(res.error, "error");
     }
   } catch (err) {
-    lastAiMsgEl.textContent = "❌ " + (err?.message || "Onbekende fout");
+    lastAiMsgEl = addMessage("ai", "❌ " + (err?.message || "Onbekende fout"));
     toast("Fout: " + (err?.message || String(err)), "error");
   }
 }
@@ -156,14 +156,22 @@ export async function handleUserInput(rawText) {
 export function onStreamChunk(chunk) {
   if (!chunk) return;
   if (!lastAiMsgEl || !lastAiMsgEl.isConnected) {
-    lastAiMsgEl = addMessage("ai", "", { typing: true });
+    lastAiMsgEl = addMessage("ai", chunk);
+    return;
   }
   // Vervang typ animatie door echte tekst als eerste chunk binnenkomt
   if (lastAiMsgEl.classList.contains("typing")) {
-    lastAiMsgEl.classList.remove("typing");
-    lastAiMsgEl.innerHTML = "";
+    // Vervang door nieuwe AI-bericht met eerste chunk
+    lastAiMsgEl = addMessage("ai", chunk);
+  } else {
+    // Voeg chunk toe aan bestaande AI-bericht (msg-content)
+    const content = lastAiMsgEl.querySelector('.msg-content');
+    if (content) {
+      content.textContent += chunk;
+    } else {
+      lastAiMsgEl.textContent += chunk;
+    }
   }
-  lastAiMsgEl.textContent += chunk;
   const chatEl = document.getElementById("chat");
   if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
 }
