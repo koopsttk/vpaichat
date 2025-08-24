@@ -30,7 +30,15 @@ function registerChatIpc(ipcMain) {
         return { ok: false, error: "Geen API-key" };
       }
 
-      const { obj: startObj } = readStartObject();
+      let startObj;
+      try {
+        const r = readStartObject();
+        startObj = r.obj;
+      } catch (e) {
+        console.error('[ai:chat] startobject read failed:', e?.message || e);
+        if (win) win.webContents.send("ai:chunk", "⚠️ Startobject niet beschikbaar.");
+        return { ok: false, error: 'startobject_not_found' };
+      }
 
       const sysParts = [];
       if (startObj.system_prompt) sysParts.push(startObj.system_prompt);
@@ -54,19 +62,26 @@ function registerChatIpc(ipcMain) {
         ...messages,
       ];
 
-      const result = await client.chat.completions.create({
-        model,
-        messages: fullMessages,
-        temperature: startObj?.config?.aiTemperature ?? 0.3,
-      });
+      let result;
+      try {
+        result = await client.chat.completions.create({
+          model,
+          messages: fullMessages,
+          temperature: startObj?.config?.aiTemperature ?? 0.3,
+        });
+      } catch (apiErr) {
+        console.error('[ai:chat] OpenAI request failed:', apiErr?.message || apiErr);
+        if (win) win.webContents.send("ai:chunk", `⚠️ Fout bij AI-aanvraag: ${apiErr?.message || 'onbekend'}`);
+        return { ok: false, error: 'openai_error', details: apiErr?.message || String(apiErr) };
+      }
 
       const text = result?.choices?.[0]?.message?.content || "";
       if (win) win.webContents.send("ai:chunk", text);
-      return { ok: true };
+      return { ok: true, tokens: result?.usage || null };
     } catch (err) {
       console.error("AI chat error:", err);
-      if (win) win.webContents.send("ai:chunk", `⚠️ Fout: ${err.message}`);
-      return { ok: false, error: err.message };
+      if (win) win.webContents.send("ai:chunk", `⚠️ Fout: ${err?.message || 'onbekend'}`);
+      return { ok: false, error: 'internal_error', details: err?.message || String(err) };
     }
   });
 

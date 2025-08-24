@@ -25,7 +25,6 @@ const fs = require('fs');
 
 const config = getConfig();
 // const dataDir = ensureDataDirectory(config); // Verwijderd of zelf implementeren
-console.log(config.dataDir); // Nu bestaat dataDir wél
 
 if (!fs.existsSync(config.dataDir)) {
   const msg = `Data directory bestaat niet: ${config.dataDir}`;
