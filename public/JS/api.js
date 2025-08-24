@@ -20,12 +20,16 @@ export function onSafe(el, evt, fn, opts) {
   if (el) el.addEventListener(evt, fn, opts);
 }
 /** addMessage(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
-export function addMessage(role, text = "") {
+export function addMessage(role, text = "", opts = {}) {
   const chatEl = document.getElementById("chat");
   if (!chatEl) return null;
   const m = document.createElement("div");
-  m.className = "msg " + role;
-  m.textContent = text;
+  m.className = "msg " + role + (opts.typing ? " typing" : "");
+  if (opts.typing) {
+    m.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+  } else {
+    m.textContent = text;
+  }
   chatEl.appendChild(m);
   chatEl.scrollTop = chatEl.scrollHeight;
   return m;

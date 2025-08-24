@@ -15,7 +15,7 @@ import { API, addMessage, toast } from "./api.js";
 import { getSystemPrompt } from "./seed.js";
 
 let lastAiMsgEl = null;
-
+// Toon typende AI-animatie na user input
 export async function handleUserInput(rawText) {
   const api = API();
   const userMsg = (rawText || "").trim();
@@ -106,6 +106,9 @@ export async function handleUserInput(rawText) {
 
   addMessage("user", userMsg);
 
+  // Typ animatie tonen voor AI
+  lastAiMsgEl = addMessage("ai", "", { typing: true });
+
   // Command: "open <rol> <naam?>"
   if (/^open\s+/i.test(userMsg)) {
     try {
@@ -124,8 +127,7 @@ export async function handleUserInput(rawText) {
     return;
   }
 
-  // Streaming placeholder
-  lastAiMsgEl = addMessage("ai", "");
+  // Streaming placeholder wordt nu niet meer gebruikt, want typ animatie is al getoond
 
   try {
     const fn = api.aiChat;
@@ -154,7 +156,12 @@ export async function handleUserInput(rawText) {
 export function onStreamChunk(chunk) {
   if (!chunk) return;
   if (!lastAiMsgEl || !lastAiMsgEl.isConnected) {
-    lastAiMsgEl = addMessage("ai", "");
+    lastAiMsgEl = addMessage("ai", "", { typing: true });
+  }
+  // Vervang typ animatie door echte tekst als eerste chunk binnenkomt
+  if (lastAiMsgEl.classList.contains("typing")) {
+    lastAiMsgEl.classList.remove("typing");
+    lastAiMsgEl.innerHTML = "";
   }
   lastAiMsgEl.textContent += chunk;
   const chatEl = document.getElementById("chat");
