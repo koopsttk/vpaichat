@@ -1,3 +1,84 @@
+/* Licht thema */
+.light-theme {
+  background-color: #f5f6fa;
+  color: #232323;
+}
+.light-theme header {
+  background-color: #e6e7eb;
+  border-bottom: 1px solid #cfd2da;
+}
+.light-theme header h1 {
+  color: #232323;
+}
+.light-theme header p {
+  color: #6a6a6a;
+}
+.light-theme #chat {
+  background: #f5f6fa;
+}
+.light-theme .msg.user {
+  background-color: #0b93f6;
+  color: #fff;
+}
+.light-theme .msg.ai {
+  background-color: #e6e7eb;
+  color: #232323;
+}
+.light-theme .msg {
+  color: #232323;
+}
+.light-theme .copyBtn {
+  color: #232323;
+}
+.light-theme .copyBtn:hover {
+  background: #cfd2da;
+  color: #0b93f6;
+}
+.light-theme .msg-content {
+  color: #232323;
+}
+.light-theme .msg.ai.typing {
+  color: #6a6a6a;
+}
+.light-theme .dot {
+  background-color: #232323;
+}
+.light-theme .toast {
+  background: #e6e7eb;
+  color: #232323;
+  border: 1px solid #cfd2da;
+}
+.light-theme .toast.error {
+  background: #eebebe;
+  color: #8b2f2f;
+}
+.light-theme pre {
+  background-color: #f0f0f0;
+  color: #232323;
+}
+.light-theme code {
+  color: #232323;
+}
+.light-theme #inputBar {
+  background-color: #e6e7eb;
+  border-top: 1px solid #cfd2da;
+}
+.light-theme #input {
+  background-color: #fff;
+  color: #232323;
+}
+.light-theme #send {
+  background-color: #0b93f6;
+  color: #fff;
+}
+.light-theme #send:hover {
+  background-color: #1a9bff;
+}
+.light-theme #statusbar {
+  background: #e6e7eb;
+  color: #6a6a6a;
+  border-top: 1px solid #cfd2da;
+}
 /* public/styles.css */
 body {
   margin: 0;

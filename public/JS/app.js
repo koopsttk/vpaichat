@@ -1,3 +1,22 @@
+// Thema toggle
+function setTheme(theme) {
+  document.body.classList.toggle('light-theme', theme === 'light');
+  document.getElementById('theme-toggle').textContent = theme === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.contains('light-theme');
+  setTheme(isLight ? 'dark' : 'light');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.addEventListener('click', toggleTheme);
+  // Init theme from localStorage
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') setTheme('light');
+});
 /**
  * VPAICore – public/JS/app.js
  * Rol: Renderer entrypoint: events binden en orkestreren
