@@ -1,0 +1,45 @@
+{
+  "rol": "startobject",
+  "id": "00000000-0000-0000-0000-000000000001",
+  "titel": "VPAICore – Bootstrapvonk",
+  "omschrijving": "Eerste installatie: schrijf ini.cfg, core_fields.json en startobject.json. Hernoem mij daarna.",
+  "instructions": "Start altijd hier. Beleid/alias in dit object; technische bindings in ini.cfg; DNA in contracts/core_fields.json.",
+  "bootstrap": {
+    "mode": "first-run",
+    "write_files": [
+      { "target": "/config/ini.cfg", "source": "$.ini_cfg" },
+      { "target": "/config/contracts/core_fields.json", "source": "$.core_fields_contract" },
+      { "target": "/data/startobject.json", "source": "$.startobject_payload" }
+    ],
+    "post_actions": [
+      { "action": "rename_self", "to": "/data/bootstrapvonk.applied.json" }
+    ]
+  },
+
+  "ini_cfg": "# VPAICore - ini.cfg (minimal boot)\\n\\n[paths]\\ndata_dir=/data\\nconfig_dir=/config\\ndocs_dir=/docs\\npublic_dir=/public\\nlogs_dir=/logs\\nscratch_dir=/workspace/scratch\\n\\n[startobject]\\nfile=/data/startobject.json\\nautodiscover=false\\n\\n[api]\\nprovider=env\\nref=OPENAI_API_KEY\\n\\n[ssot.core]\\nid_field=id\\ndate_field=created_at_utc\\nversion_field=version\\ntimezone=UTC\\nfilename_pattern={iso8601_utc}Z_{uuid}.json\\n\\n[ssot.rules]\\nrequire_core_fields=true\\ndisallow_millis=true\\nuuid_version=v4\\nsemver_enforce=true\\nimmutable_fields=id,created_at_utc\\nname_content_match=fail\\n\\n[crypto]\\nenabled=true\\n# Alleen binding, geen secrets hier.\\n\\n[crypto.kms]\\nprovider=env\\nkey_alias_primary=primary\\n\\n[crypto.binding.primary]\\nprovider=env\\nref=VPAI_PRIMARY_KEY\\n\\n[security]\\nallowed_roots=/data,/docs,/public,/workspace/scratch\\ndeny_path_escape=true\\nmax_file_size_mb=50\\n",
+
+  "core_fields_contract": {
+    "contract_version": "1.0.0",
+    "required_fields": ["id", "created_at_utc", "version"],
+    "filename_pattern": "{iso8601_utc}Z_{uuid}.json",
+    "uuid_version": "v4",
+    "timestamp": { "zone": "UTC", "millis": false },
+    "versioning": { "type": "semver", "initial": "1.0.0" },
+    "immutables": ["id", "created_at_utc"],
+    "on_mismatch": "fail"
+  },
+
+  "startobject_payload": {
+    "rol": "startobject",
+    "id": "00000000-0000-0000-0000-000000000001",
+    "titel": "VPAICore – Startobject",
+    "omschrijving": "Regiekamer. Verwijst naar ini.cfg (bindings) en contracts/core_fields.json (DNA).",
+    "policy": {
+      "encryption": { "enabled": true, "key_alias": "primary" }
+    },
+    "notes": [
+      "Geen secrets in dit object.",
+      "Index wordt later gedefinieerd."
+    ]
+  }
+}
