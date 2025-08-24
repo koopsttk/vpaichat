@@ -16,12 +16,12 @@ const path = require("path");
 
 const { readStartObject, resolveStartObjectPath } = require("./start-object-loader");
 const { utcStampTight, ensureDir, writeJSONAtomic } = require("../utils/file-helpers");
-const { getIniConfig, getAppConfig } = require("./config.service");
+const { getConfig, getAppConfig } = require("./config.service");
 
 /** dataDir(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function dataDir() {
-  const cfg = getIniConfig();
-  return ensureDataDirectory(cfg);
+  const cfg = getConfig();
+  return cfg.dataDir;
 }
 
 /** Lees actuele startobject + pad. */
