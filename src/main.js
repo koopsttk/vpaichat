@@ -77,7 +77,28 @@ try {
     }
   });
 
-  mainWindow.webContents.openDevTools(); // <-- Zet deze regel hier!
+  // Open DevTools only when explicitly enabled in config or when running in development
+  try {
+    // Support multiple possible config keys for backward compatibility
+    const cfgKv = config && config.kv ? config.kv : {};
+    const raw = (cfgKv['dev.openDevTools'] ?? cfgKv['dev.open_devtools'] ?? cfgKv['ui.openDevTools'] ?? cfgKv['ui.open_devtools']);
+    const explicit = typeof raw === 'string' ? raw.toString().toLowerCase() : undefined;
+    const isDevEnv = process.env.NODE_ENV === 'development';
+    // Behavior:
+    // - explicit 'true' => always open
+    // - explicit 'false' => never open (even if NODE_ENV=development)
+    // - undefined => open only when NODE_ENV=development
+    if (explicit === 'true') {
+      mainWindow.webContents.openDevTools();
+    } else if (explicit === 'false') {
+      // explicitly disabled — do nothing
+    } else if (isDevEnv) {
+      mainWindow.webContents.openDevTools();
+    }
+  } catch (e) {
+    // Non-fatal: if config parsing fails, don't block app start. Default: keep closed.
+    console.warn('[Main] openDevTools check failed:', e?.message || e);
+  }
 });
 
 app.on("window-all-closed", () => {
