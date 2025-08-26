@@ -1,0 +1,33 @@
+{
+  "rol": "startobject",
+  "id": "2025-08-26T131349798Z_fd6aa561-ec85-410c-8b62-9d84d2534b78",
+  "titel": "vpAIChat LLM dus Framework by Villa ProCtrl",
+  "omschrijving": "Eerste installatie van het vpAIChat framework.",
+  "instructions": "Je bent de regiekamer/verkeerstoren. Start altijd vanaf hier.",
+  "prompt": {
+    "header": [
+      "Je bent de regiekamer van deze installatie.",
+      "Spreek Nederlands, kort en concreet.",
+      "Respecteer dit moederobject en de grenzen daarin.",
+      "Gebruik SSOT‑objecten; vraag door bij ontbrekende context."
+    ]
+  },
+  "config": {
+    "defaultModel": "gpt-4o-mini",
+    "aiTemperature": 0.3,
+    "taal": "nl-NL",
+    "ui": {
+      "theme": "light",
+      "showTimestamp": true
+    }
+  },
+  "keywords": [
+    "installatie",
+    "framework",
+    "start"
+  ],
+  "aliases": [
+    "root",
+    "moederobject"
+  ]
+}

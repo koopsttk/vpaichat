@@ -1,7 +1,7 @@
 {
   "paths": {
-    "data_dir": "../data",
-    "startobject_file": "2025-08-21T151518517Z_45b31497-f6a4-4bea-929b-312a9151e43e.json"
+    "data_dir": "..\\data",
+    "startobject_file": "2025-08-26T131349798Z_fd6aa561-ec85-410c-8b62-9d84d2534b78.json"
   },
   "security": {
     "encryption": "aes-256",
@@ -18,7 +18,7 @@
     "block_repeated_chars": true,
     "max_word_length": 30,
     "allow_commands": true,
-    "enable_forbidden_words":true
+    "enable_forbidden_words": true
   },
   "development": {
     "dev.openDevTools": true
