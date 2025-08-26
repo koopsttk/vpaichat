@@ -2,12 +2,11 @@
 
 const path = require('path');
 const fs = require('fs');
-const ini = require('ini');
-const configPath = path.join(__dirname, '../../config/ini.cfg');
-const { getIniConfig } = require('./config.service');
+const { getConfig } = require('./config.service');
 
-function ensureDataDirectory(config) {
-  const dataDir = config.paths?.data_dir || './data';
+function ensureDataDirectory() {
+  const cfg = getConfig();
+  const dataDir = cfg.dataDir;
   if (!fs.existsSync(dataDir)) {
     throw new Error(`Data map ontbreekt: ${dataDir}`);
   }
@@ -15,6 +14,6 @@ function ensureDataDirectory(config) {
 }
 
 module.exports = {
-  getIniConfig,
+  getConfig,
   ensureDataDirectory,
 };

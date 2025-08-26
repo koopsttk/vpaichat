@@ -12,7 +12,7 @@ De Blauwdruk fungeert als **Single Source of Truth (SSOT)**: alle andere documen
 - **/src** → broncode (JavaScript/Electron), alleen implementatie + korte inline comments.  
 - **/docs** → documentatie, SSOT met detailuitleg en conventies.  
 - **/data** → JSON objecten (o.a. startobject), runtime data.  
-- **/config** → configuratie (o.a. `ini.cfg`).  
+- **/config** → configuratie (o.a. `ini.json`).  
 - **/public** → frontend bestanden (`renderer.js`, UI).  
 
 Distributiepakketten:
@@ -43,7 +43,7 @@ De detaildocumentatie staat in [`docs/`](docs/):
 ## ⚙️ Kernprincipes
 
 1. **SSOT** – Data en documentatie worden altijd centraal beheerd.  
-2. **Startobject** – Regelt rol, titel/omschrijving en context. Staat in `/data`, pad vastgelegd via `/init/ini.cfg`.  
+2. **Startobject** – Regelt rol, titel/omschrijving en context. Staat in `/data`, pad vastgelegd via `/init/ini.json`.  
 3. **Separation of concerns** – Main-process alleen doorverwijzingen; services regelen de logica.  
 4. **Transparantie** – Documentatie legt alles uit voor zowel mens als AI.  
 
@@ -51,8 +51,8 @@ De detaildocumentatie staat in [`docs/`](docs/):
 
 ## 🔗 Belangrijkste koppelingen
 
-- **Startobject Service**  
-  - Leest `ini.cfg` om pad te vinden.  
+-- **Startobject Service**  
+  - Leest `ini.json` om pad te vinden.  
   - Haalt startobject JSON in `/data` op.  
   - Geeft rol, titel en omschrijving door aan renderer.  
 

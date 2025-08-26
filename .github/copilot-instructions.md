@@ -2,8 +2,8 @@
 
 ## Projectoverzicht
 - **Electron-app** met duidelijke scheiding tussen main process, preload, IPC, core services, infra, en renderer (frontend).
-- **Single Source of Truth (SSOT):** Het startobject (JSON in `/data`) bepaalt de AI-context en UI-titel/omschrijving. Pad naar startobject via `/init/ini.cfg` of `/config/ini.cfg`.
-- **Configuratie:** Paden en instellingen in `ini.cfg` (zie `docs/CONFIG.md`). Paden altijd omzetten naar absoluut met `path.resolve(path.dirname(iniPath), relPath)`.
+-- **Single Source of Truth (SSOT):** Het startobject (JSON in `/data`) bepaalt de AI-context en UI-titel/omschrijving. Pad naar startobject via `/init/ini.json` of `/config/ini.json`.
+- **Configuratie:** Paden en instellingen in `ini.json` (zie `docs/CONFIG.md`). Paden altijd omzetten naar absoluut met `path.resolve(path.dirname(iniPath), relPath)`.
 - **Data:** Alle objecten als losse JSON-bestanden in `/data`, met index (`_index.json`).
 
 ## Belangrijkste componenten

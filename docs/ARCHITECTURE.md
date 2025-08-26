@@ -10,4 +10,4 @@
 - **Infra (`src/infra/*.js`)** – API key store, OpenAI client wrapper.
 - **Renderer (`public/JS/*.js`)** – UI/UX, AI-seed bouwen, events, streaming.
 - **Data (`/data`)** – JSON objecten + `_index.json`.
-- **Config (`/init/ini.cfg` of `/config/ini.cfg`)** – paden/instellingen.
+- **Config (`/init/ini.json` of `/config/ini.json`)** – paden/instellingen.

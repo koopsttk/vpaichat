@@ -6,7 +6,7 @@
  *
  * Conventies:
  * - Houd main.js dun (alleen IPC doorverwijzers).
- * - Startobject is SSOT-regiekamer; pad hard uit init/ini.cfg of config/ini.cfg.
+ * - Startobject is SSOT-regiekamer; pad hard uit init/ini.json of config/ini.json.
  * - AI seed: compacte index + startobject in system prompt (renderer of service).
  */
 
@@ -79,9 +79,12 @@ try {
   // Open DevTools only when explicitly enabled in config or when running in development
   try {
     // Support multiple possible config keys for backward compatibility
-    const cfgKv = config && config.kv ? config.kv : {};
-    const raw = (cfgKv['dev.openDevTools'] ?? cfgKv['dev.open_devtools'] ?? cfgKv['ui.openDevTools'] ?? cfgKv['ui.open_devtools']);
-    const explicit = typeof raw === 'string' ? raw.toString().toLowerCase() : undefined;
+  const cfgKv = config && config.kv ? config.kv : {};
+  const raw = (cfgKv['dev.openDevTools'] ?? cfgKv['dev.open_devtools'] ?? cfgKv['ui.openDevTools'] ?? cfgKv['ui.open_devtools'] ?? cfgKv['development.dev.openDevTools'] ?? cfgKv['development.dev.open_devtools']);
+  let explicit;
+  if (typeof raw === 'string') explicit = raw.toString().toLowerCase();
+  else if (typeof raw === 'boolean') explicit = raw ? 'true' : 'false';
+  else explicit = undefined;
     const isDevEnv = process.env.NODE_ENV === 'development';
     // Behavior:
     // - explicit 'true' => always open

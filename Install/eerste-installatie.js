@@ -41,17 +41,19 @@ function eersteInstallatie() {
   fs.writeFileSync(filePath, JSON.stringify(startObj, null, 2), "utf-8");
   console.log(`[Eerste installatie] Startobject opgeslagen als ${filename}`);
 
-  // ini.cfg schrijven
+  // ini.json schrijven (nieuwe JSON-first config)
   if (!fs.existsSync(iniDir)) fs.mkdirSync(iniDir);
-  const iniContent = `[paths]
-data_dir = ${path.relative(iniDir, dataDir)}
-startobject_file = ${filename}
-
-[security]
-encryption = aes-256
-bind_to_machine = true
-`;
-  fs.writeFileSync(path.join(iniDir, "ini.cfg"), iniContent, "utf-8");
+  const cfgObj = {
+    paths: {
+      data_dir: path.relative(iniDir, dataDir),
+      startobject_file: filename
+    },
+    security: {
+      encryption: 'aes-256',
+      bind_to_machine: true
+    }
+  };
+  fs.writeFileSync(path.join(iniDir, "ini.json"), JSON.stringify(cfgObj, null, 2), "utf-8");
 
   // Bootstrap markeren
   const doneFile = bootstrapFile.replace(/\.json$/i, ".done");

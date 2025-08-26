@@ -4,7 +4,7 @@
 - [x] **Electron shell** draait (main.js)  
 - [x] **Renderer** (chat-UI, enter/shift-enter bug opgelost)  
 - [x] **Preload bridges** (chat, startobject ophalen)  
-- [x] **Startobject hardcoded via ini.cfg**  
+- [x] **Startobject hardcoded via ini.json**  
 
 ---
 
@@ -12,7 +12,7 @@
 - [x] Code voorzien van inline commentaar (zie `aichat_annotated.zip`)  
 - [x] Basis documentatie gemaakt (`aichat_docs.zip`)  
 - [ ] **ARCHITECTURE.md uitbreiden** met splitsing renderer.js → modules (UI, AI-chat, object-handling)  
-- [ ] **CONFIG.md** aanvullen met voorbeelden van `ini.cfg`
+- [ ] **CONFIG.md** aanvullen met voorbeelden van `ini.json`
 
 ---
 

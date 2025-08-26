@@ -6,7 +6,7 @@
  *
  * Conventies:
  * - Houd main.js dun (alleen IPC doorverwijzers).
- * - Startobject is SSOT-regiekamer; pad hard uit init/ini.cfg of config/ini.cfg.
+ * - Startobject is SSOT-regiekamer; pad hard uit init/ini.json of config/ini.json.
  * - AI seed: compacte index + startobject in system prompt (renderer of service).
  */
 
