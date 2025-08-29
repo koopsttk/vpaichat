@@ -24,7 +24,7 @@ function eersteInstallatie() {
   const baseDir = path.resolve(__dirname, "..");
   const iniDir = path.join(baseDir, "config");
   const dataDir = path.join(baseDir, "data");
-  const bootstrapFile = path.join(__dirname, "bootstrapvonk.json");
+  const bootstrapFile = path.join(__dirname, "vonk.json");
 
   if (!fs.existsSync(bootstrapFile)) {
     throw new Error("Geen bootstrapbestand gevonden.");

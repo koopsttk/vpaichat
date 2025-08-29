@@ -94,10 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // 4) Live updates vanuit main via preload-bridge (optioneel)
-  api.onSetTitle?.((t) => {
-    const el = document.getElementById("appTitle") || document.querySelector("[data-start-title]");
-    if (el) el.textContent = t || el.textContent;
-  });
+  // Titel uit startobject (DatasetOmschrijving) wordt via seed.js gezet
   api.onSetDescription?.((d) => {
     const el = document.getElementById("appDescription") || document.querySelector("[data-start-desc]");
     if (el) el.textContent = d || el.textContent;

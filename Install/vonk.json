@@ -38,8 +38,7 @@
 			"allowed_roots": "/data,/docs,/public,/workspace/scratch",
 			"deny_path_escape": true,
 			"max_file_size_mb": 50
-		}
-		,
+		},
 		"chat": {
 			"max_input_length": 1000,
 			"allowed_chars": "^[\\w\\s.,!?@#\\-]+$",
@@ -55,6 +54,15 @@
 		},
 		"development": {
 			"dev.openDevTools": true
+		},
+		"ai_config": {
+			"defaultModel": "gpt-4o-mini",
+			"aiTemperature": 0.3,
+			"taal": "nl-NL",
+			"ui": {
+				"theme": "light",
+				"showTimestamp": true
+			}
 		}
 	},
 
@@ -72,28 +80,6 @@
 	"startobject_payload": {
 		"rol": "startobject",
 		"id": "00000000-0000-0000-0000-000000000001",
-		"titel": "vpAIChat LLM dus Framework by Villa ProCtrl",
-		"omschrijving": "Eerste installatie van het vpAIChat framework.",
-
-		"instructions": "Je bent de regiekamer/verkeerstoren. Start altijd vanaf hier.",
-		"prompt": {
-			"header": [
-				"Je bent de regiekamer van deze installatie.",
-				"Spreek Nederlands, kort en concreet.",
-				"Respecteer dit moederobject en de grenzen daarin.",
-				"Gebruik SSOT\u2011objecten; vraag door bij ontbrekende context."
-			]
-		},
-		"config": {
-			"defaultModel": "gpt-4o-mini",
-			"aiTemperature": 0.3,
-			"taal": "nl-NL",
-			"ui": {
-				"theme": "light",
-				"showTimestamp": true
-			}
-		},
-		"keywords": ["installatie", "framework", "start"],
-		"aliases": ["root", "moederobject"]
+		"DatasetOmschrijving": "SSOT Dataset Villa ProCtrl."
 	}
 }

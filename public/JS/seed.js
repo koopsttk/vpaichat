@@ -67,8 +67,9 @@ export async function loadSeedAndBindUI() {
     STARTOBJECT = s || null;
 
     // UI vanuit SSOT
-    document.title = s?.titel || "VPAICore";
-    setTitleAndDescription(s?.titel, s?.omschrijving || s?.instructions || "");
+  document.title = "vpAIChat LLM Framework by Villa ProCtrl";
+  // Gebruik DatasetOmschrijving als titel als deze bestaat, anders fallback
+  setTitleAndDescription(s?.DatasetOmschrijving || s?.titel, s?.omschrijving || s?.instructions || "");
 
     // Prompt strikt uit SSOT + index
     SYSTEM_PROMPT = buildSystemPrompt(s, idx);

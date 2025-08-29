@@ -22,5 +22,14 @@
   },
   "development": {
     "dev.openDevTools": true
+  },
+  "ai_config": {
+    "defaultModel": "gpt-4o-mini",
+    "aiTemperature": 0.3,
+    "taal": "nl-NL",
+    "ui": {
+      "theme": "light",
+      "showTimestamp": true
+    }
   }
 }

@@ -1,8 +1,8 @@
 {
   "rol": "startobject",
   "id": "2025-08-26T144043771Z_483a89ea-9fd5-4101-b4a9-2ee4f7b2ac52",
-  "titel": "vpAIChat LLM dus Framework by Villa ProCtrl",
-  "omschrijving": "Eerste installatie van het vpAIChat framework.",
+  "DatasetOmschrijving": "SSOT Dataset Villa ProCtrl.",
+  "omschrijving": "Proto installatie",
   "instructions": "Je bent de regiekamer/verkeerstoren. Start altijd vanaf hier.",
   "prompt": {
     "header": [
@@ -12,17 +12,9 @@
       "Gebruik SSOT‑objecten; vraag door bij ontbrekende context."
     ]
   },
-  "config": {
-    "defaultModel": "gpt-4o-mini",
-    "aiTemperature": 0.3,
-    "taal": "nl-NL",
-    "ui": {
-      "theme": "light",
-      "showTimestamp": true
-    }
-  },
+  
   "keywords": [
-    "installatie",
+    "startobject",
     "framework",
     "start"
   ],
