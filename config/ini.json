@@ -1,7 +1,7 @@
 {
   "paths": {
     "data_dir": "..\\data",
-    "startobject_file": "2025-08-26T144043771Z_483a89ea-9fd5-4101-b4a9-2ee4f7b2ac52.json"
+    "startobject_file": "2025-08-29T152522427Z_7daa6796-50a3-4f53-9600-a6df85ae714c.json"
   },
   "security": {
     "encryption": "aes-256",
@@ -22,14 +22,5 @@
   },
   "development": {
     "dev.openDevTools": true
-  },
-  "ai_config": {
-    "defaultModel": "gpt-4o-mini",
-    "aiTemperature": 0.3,
-    "taal": "nl-NL",
-    "ui": {
-      "theme": "light",
-      "showTimestamp": true
-    }
   }
 }

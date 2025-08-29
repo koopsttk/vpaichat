@@ -1,0 +1,24 @@
+{
+  "rol": "startobject",
+  "id": "2025-08-29T152522427Z_7daa6796-50a3-4f53-9600-a6df85ae714c",
+  "DatasetOmschrijving": "SSOT Dataset Villa ProCtrl.",
+  "omschrijving": "Proto installatie",
+  "instructions": "Je bent de regiekamer/verkeerstoren. Start altijd vanaf hier.",
+  "prompt": {
+    "header": [
+      "Je bent de regiekamer van deze installatie.",
+      "Spreek Nederlands, kort en concreet.",
+      "Respecteer dit moederobject en de grenzen daarin.",
+      "Gebruik SSOT‑objecten; vraag door bij ontbrekende context."
+    ]
+  },
+  "keywords": [
+    "startobject",
+    "framework",
+    "start"
+  ],
+  "aliases": [
+    "root",
+    "moederobject"
+  ]
+}
