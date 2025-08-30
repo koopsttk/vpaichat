@@ -91,8 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let title = '…';
       if (window.api?.openChatlog) {
         try {
-          const content = await window.api.openChatlog(filename);
-          const data = JSON.parse(content);
+          const data = await window.api.openChatlog(filename);
           if (data && Array.isArray(data.log)) {
             const firstUser = data.log.find(e => e.role === 'user' && e.message);
             if (firstUser) {
@@ -105,8 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (title === '…') {
         if (window.api?.openChatlog) {
           try {
-            const content = await window.api.openChatlog(filename);
-            const data = JSON.parse(content);
+            const data = await window.api.openChatlog(filename);
             if (data && Array.isArray(data.log) && data.log.length > 0) {
               title = filename.replace('.json', '');
             }
@@ -124,9 +122,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         await renderChatlogList();
         // Chatvenster vullen en history opslaan
         if (window.api?.openChatlog) {
-          const content = await window.api.openChatlog(filename);
           try {
-            const data = JSON.parse(content);
+            const data = await window.api.openChatlog(filename);
             activeChatlogHistory = Array.isArray(data.log) ? data.log : [];
             renderChatHistory(activeChatlogHistory);
           } catch {

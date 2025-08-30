@@ -15,7 +15,7 @@ const fs = require("fs");
 const path = require("path");
 
 const { readStartObject, resolveStartObjectPath } = require("./start-object-loader");
-const { utcStampTight, ensureDir, writeJSONAtomic } = require("../utils/file-helpers");
+const { utcStampTight, ensureDir, writeJSONAtomic, readJSON, writeJSON } = require("../utils/file-helpers");
 const { getConfig, getAppConfig } = require("./config.service");
 
 /** dataDir(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
@@ -44,11 +44,11 @@ function update(json) {
   if (!json.created) json.created = now;
 
   // Backup + history
-  fs.writeFileSync(soPath + ".bak", JSON.stringify(current, null, 2), "utf-8");
+  writeJSON(soPath + ".bak", current);
   const histRoot = path.join(dataDir(), ".history", "startobject", path.basename(soPath, ".json"));
   ensureDir(histRoot);
   const histFile = path.join(histRoot, `${utcStampTight()}.json`);
-  fs.writeFileSync(histFile, JSON.stringify(current, null, 2), "utf-8");
+  writeJSON(histFile, current);
 
   // Nieuwe versie
   writeJSONAtomic(soPath, json);
@@ -83,7 +83,7 @@ function restore(which = "last") {
     src = path.join(histRoot, files[files.length - 1]);
   }
 
-  const content = JSON.parse(fs.readFileSync(src, "utf-8"));
+  const content = require("../utils/file-helpers").readJSON(src);
   writeJSONAtomic(soPath, content);
   return { soPath, obj: content, restoredFrom: src };
 }

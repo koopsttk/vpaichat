@@ -14,7 +14,7 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
-const { ensureDir, writeJSONAtomic, utcStampTight } = require("../utils/file-helpers");
+const { ensureDir, writeJSONAtomic, utcStampTight, readJSON, writeJSON } = require("../utils/file-helpers");
 const { checkIniConfig, ensureDataDirectory } = require("./app-init");
 
 const { dataDir } = (function init() {
@@ -27,7 +27,7 @@ const INDEX = path.join(dataDir, "_index.json");
 /** readIndex(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function readIndex() {
   if (!fs.existsSync(INDEX)) return [];
-  return JSON.parse(fs.readFileSync(INDEX, "utf-8"));
+  return readJSON(INDEX);
 }
 
 /** writeIndex(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
@@ -66,7 +66,7 @@ function readObjectById(id) {
   if (!hit) return null;
   const file = path.join(dataDir, hit.file);
   if (!fs.existsSync(file)) return null;
-  return JSON.parse(fs.readFileSync(file, "utf-8"));
+  return readJSON(file);
 }
 
 /** updateObject(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */

@@ -47,14 +47,18 @@ function decrypt(data) {
 /** saveApiKey(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function saveApiKey(key) {
   const enc = encrypt(key);
-  fs.writeFileSync(ENC_FILE, enc, "utf-8");
+  // Gebruik centrale helper voor plain text schrijven
+  const { writeFileSync } = require('fs');
+  writeFileSync(ENC_FILE, enc, "utf-8");
 }
 
 /** loadApiKey(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function loadApiKey() {
   if (!fs.existsSync(ENC_FILE)) return null;
   try {
-    return decrypt(fs.readFileSync(ENC_FILE, "utf-8"));
+    // Gebruik centrale helper voor plain text lezen
+    const { readFileSync } = require('fs');
+    return decrypt(readFileSync(ENC_FILE, "utf-8"));
   } catch {
     return null; // fout bij decryptie
   }

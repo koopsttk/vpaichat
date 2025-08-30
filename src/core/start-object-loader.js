@@ -13,6 +13,7 @@
  const fs = require("fs");
  const path = require("path");
  const { getConfig } = require("./config.service");
+ const { readJSON } = require("../utils/file-helpers");
 
  function resolveStartObjectPath() {
    const cfg = getConfig();
@@ -26,7 +27,7 @@
  function readStartObject() {
    const soPath = resolveStartObjectPath();
    if (!fs.existsSync(soPath)) throw new Error(`Startobject niet gevonden: ${soPath}`);
-   const obj = JSON.parse(fs.readFileSync(soPath, "utf-8"));
+   const obj = readJSON(soPath);
    return { obj, soPath };
  }
 

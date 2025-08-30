@@ -49,7 +49,8 @@ function registerChatlogIpc(ipcMain) {
         const chatlogDir = path.join(config.dataDir, 'chatlogs');
         const filePath = path.join(chatlogDir, filename);
         if (fs.existsSync(filePath)) {
-            return fs.readFileSync(filePath, 'utf-8');
+            // Chatlogs zijn JSON, dus gebruik readJSON helper
+            return require('../utils/file-helpers').readJSON(filePath);
         }
         return null;
     });

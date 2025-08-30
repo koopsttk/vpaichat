@@ -20,6 +20,22 @@ function generateObjectFileName(ext = ".json") {
 
 const fs = require("fs");
 
+/**
+ * Leest een JSON-bestand en geeft het geparseerde object terug.
+ * Gooit een error als het bestand niet bestaat of geen geldige JSON bevat.
+ */
+function readJSON(path) {
+  return JSON.parse(fs.readFileSync(path, "utf-8"));
+}
+
+/**
+ * Schrijft een object als JSON naar een bestand (niet atomic).
+ * Voor atomic: gebruik writeJSONAtomic.
+ */
+function writeJSON(path, obj) {
+  fs.writeFileSync(path, JSON.stringify(obj, null, 2), "utf-8");
+}
+
  function utcStampTight() {
   const d = new Date();
   const p2 = (n) => String(n).padStart(2, "0");
@@ -52,5 +68,7 @@ module.exports = {
   utcStampTight,
   ensureDir,
   writeJSONAtomic,
-  generateObjectFileName
+  generateObjectFileName,
+  readJSON,
+  writeJSON
 };
