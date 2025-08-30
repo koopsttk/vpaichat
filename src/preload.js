@@ -1,6 +1,7 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, shell } = require("electron");
 
 const api = {
+  openExternal: (url) => ipcRenderer.invoke('open-external-link', url),
   getStartObject: () => ipcRenderer.invoke("core:getStartObject"),
   getAppConfig: async () => {
     const cfg = await ipcRenderer.invoke("core:getAppConfig");
@@ -19,6 +20,8 @@ const api = {
     ipcRenderer.invoke("ai:chat", { messages, model, system }),
   onAiChunk: (cb) =>
     ipcRenderer.on("ai:chunk", (_evt, data) => cb?.(data)),
+  onWebsearchResults: (cb) =>
+    ipcRenderer.on('websearch:results', (_evt, data) => cb?.(data)),
   getApiKey: () => ipcRenderer.invoke("core:getApiKey"),
   setApiKey: (key) => ipcRenderer.invoke("key:testAndSave", key),
   getCompactIndex: () => ipcRenderer.invoke("index:get"),

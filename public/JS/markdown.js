@@ -113,12 +113,12 @@ export function renderMarkdown(text) {
   function flushCode() {
     if (!inCode) return '';
     const code = codeBuf.join('\n');
-  const highlighted = highlightCode(code, codeLang);
-  codeBuf = [];
-  inCode = false;
-  codeLang = '';
-  // wrap the code block in a container so we can add a per-block copy button
-  return `<div class="codewrap"><div class="codebar"><button class="copy-code" data-lang="${escapeHtml(codeLang)}" title="Kopieer code">📋</button></div><pre class="codeblock"><code class="hljs" data-lang="${escapeHtml(codeLang)}">${highlighted}</code></pre></div>`;
+    const highlighted = highlightCode(code, codeLang);
+    codeBuf = [];
+    inCode = false;
+    codeLang = '';
+    // wrap the code block in a container so we can add a per-block copy button
+    return `<div class="codewrap"><div class="codebar"><button class="copy-code" data-lang="${escapeHtml(codeLang)}" title="Kopieer code">📋</button></div><pre class="codeblock"><code class="hljs" data-lang="${escapeHtml(codeLang)}">${highlighted}</code></pre></div>`;
   }
 
   let openFence = '';
@@ -138,11 +138,7 @@ export function renderMarkdown(text) {
         codeBuf = [];
       } else if (fence === openFence) {
         // closing fence
-        out += flushCode() + '\n';
-        openFence = '';
-      } else {
-        // inside code: treat as regular line
-        codeBuf.push(l);
+        out += flushCode();
       }
       continue;
     }
@@ -150,66 +146,15 @@ export function renderMarkdown(text) {
       codeBuf.push(l);
       continue;
     }
-    // Empty line handling: if we're inside a list, don't close it on blank lines
-    if (/^\s*$/.test(l)) {
-      if (inList) { lastWasEmpty = true; continue; }
-      if (!lastWasEmpty) { out += '<p></p>' + '\n'; lastWasEmpty = true; }
-      continue;
-    }
-
-    // Lists: ordered (1. ) and unordered (- or *)
-    const olMatch = l.match(/^\s*(\d+)\.\s+(.*)$/);
-    const ulMatch = l.match(/^\s*[-*]\s+(.*)$/);
-    if (olMatch || ulMatch) {
-      let itemText = olMatch ? olMatch[2] : ulMatch[1];
-      itemText = itemText.replace(/[\s\u00A0]+$/u, ''); // trim trailing spaces/non-break spaces
-      const curType = olMatch ? 'ol' : 'ul';
-      if (!inList) {
-        inList = true;
-        listType = curType;
-        out += `<${listType}>` + '\n';
-      } else if (inList && listType !== curType) {
-        out += `</${listType}>` + '\n';
-        listType = curType;
-        out += `<${listType}>` + '\n';
-      }
-      // inline formatting for list item
-      let processedItem = escapeHtml(itemText)
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
-        .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer noopener">$1</a>');
-      out += `<li>${processedItem}</li>` + '\n';
-      lastWasEmpty = false;
-      continue;
-    } else {
-      if (inList) {
-        out += `</${listType}>` + '\n';
-        inList = false;
-        listType = '';
-      }
-    }
-    // headings
-    const h = l.match(/^\s{0,3}(#{1,6})\s+(.*)$/);
-    if (h) {
-      const level = Math.min(6, h[1].length);
-      out += `<h${level}>${escapeHtml(h[2])}</h${level}>` + '\n';
-      continue;
-    }
-    // horizontal rule
-    if (/^\s*([-*_]){3,}\s*$/.test(l)) { out += '<hr/>' + '\n'; continue; }
-  // empty line -> paragraph break (collapse multiple empties)
-  if (/^\s*$/.test(l)) { if (!lastWasEmpty) { out += '<p></p>' + '\n'; lastWasEmpty = true; } continue; }
 
     // inline formatting: bold, italic, inline code, links
-  lastWasEmpty = false;
-  // trim trailing spaces on normal lines too
-  const lineTrimmed = l.replace(/[\s\u00A0]+$/u, '');
-  let processed = escapeHtml(lineTrimmed)
+    lastWasEmpty = false;
+    const lineTrimmed = l.replace(/[\s\u00A0]+$/u, '');
+    let processed = escapeHtml(lineTrimmed)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
-      .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer noopener">$1</a>');
+      .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" class="external-link" target="_blank" rel="noreferrer noopener">$1</a>');
 
     out += `<p>${processed}</p>` + '\n';
   }

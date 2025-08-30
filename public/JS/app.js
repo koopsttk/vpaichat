@@ -46,6 +46,7 @@ import { loadSeedAndBindUI } from "./seed.js";
 import { refreshStatus, refreshKeyStatus } from "./status.js";
 import { handleUserInput, onStreamChunk } from "./chat.js";
 import { countTokens, updateTokenStatus } from "./token.js";
+import { renderMarkdown } from "./markdown.js";
 
 /** autoGrowTextarea(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function autoGrowTextarea(e) {
@@ -199,6 +200,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Helper: render chatgeschiedenis in het chatvenster
+
   function renderChatHistory(log) {
     const chatEl = document.getElementById('chat');
     chatEl.innerHTML = '';
@@ -208,7 +210,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Berichttekst
       const msgContent = document.createElement('span');
       msgContent.className = 'msg-content';
-      msgContent.textContent = entry.message;
+      // Gebruik renderMarkdown zodat links klikbaar zijn
+      msgContent.innerHTML = renderMarkdown(entry.message || '');
       msgDiv.appendChild(msgContent);
       // Alleen copy-icoon bij AI-uitvoer
       if (entry.role !== 'user') {
@@ -374,6 +377,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   refreshKeyStatus();
+});
+
+document.addEventListener('click', async (e) => {
+  const link = e.target.closest('.external-link');
+  if (link) {
+    e.preventDefault();
+    const url = link.href;
+    const result = await window.api.openExternal(url);
+    if (!result.success) {
+      console.error('Failed to open link:', result.error);
+    }
+  }
 });
 
 

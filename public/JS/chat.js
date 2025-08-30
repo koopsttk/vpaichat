@@ -228,3 +228,38 @@ export function onStreamChunk(chunk) {
   const chatEl = document.getElementById("chat");
   if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
 }
+
+// Luister naar websearch resultaten (automatisch door intent detection)
+if (window.api?.onWebsearchResults) {
+  window.api.onWebsearchResults((data) => {
+    try {
+      const lines = [];
+      lines.push(`🔎 Websearch resultaten voor: ${data?.query || ''}`);
+      if (Array.isArray(data?.results) && data.results.length) {
+        data.results.forEach((r, i) => {
+          // Maak een klikbare link
+          const linkId = `websearch-link-${Date.now()}-${i}`;
+          lines.push(`${i+1}. <a href="#" data-url="${r.url}" id="${linkId}">${r.name}</a>`);
+          if (r.snippet) lines.push(`   ${r.snippet}`);
+        });
+      } else {
+        lines.push('Geen resultaten gevonden.');
+      }
+      // Voeg als HTML toe
+      const msgEl = addMessage('ai', lines.join('<br>'));
+      // Voeg click handlers toe voor alle links
+      if (msgEl) {
+        const links = msgEl.querySelectorAll('a[data-url]');
+        links.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = link.getAttribute('data-url');
+            if (window.api?.openExternal && url) window.api.openExternal(url);
+          });
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
+  });
+}

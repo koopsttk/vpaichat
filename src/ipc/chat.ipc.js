@@ -56,11 +56,58 @@ function registerChatIpc(ipcMain) {
         sysParts.push(`Tools: aan=[${on.join(", ")}], uit=[${off.join(", ")}]`);
       }
 
+      // automatic intent detection: kleine, explainable keyword-based check
+      function detectSearchIntent(text) {
+        if (!text || typeof text !== 'string') return false;
+        const t = text.toLowerCase();
+        const searchVerbs = ['zoek', 'zoeken', 'ik zoek', 'wil kopen', 'kopen', 'vind', 'zoeken naar', 'wil een', 'ik wil'];
+        const objectKeywords = ['auto', 'wagen', 'voertuig', 'car', "auto's", 'nieuwe auto', 'nieuwe wagen'];
+        const hasObject = objectKeywords.some(k => t.includes(k));
+        const hasVerb = searchVerbs.some(v => t.includes(v));
+        return hasObject && hasVerb;
+      }
+
       const fullMessages = [
         ...(sysParts.length ? [{ role: "system", content: sysParts.join("\n\n") }] : []),
         ...(system ? [{ role: "system", content: system }] : []),
         ...messages,
       ];
+
+      // Kijk of de laatste gebruikerszin zoekt naar iets (bv. "ik zoek een nieuwe auto")
+      try {
+        const lastUser = [...messages].reverse().find(m => m.role === 'user');
+        const userText = lastUser?.content || '';
+        if (detectSearchIntent(userText)) {
+          // Start websearch (optioneel afhankelijk van API-key). Stuur resultaten naar renderer en
+          // voeg een samenvatting toe aan de system messages zodat de AI ze kan gebruiken.
+          try {
+            // lazy-load websearch client so missing optional deps don't break startup
+            let results = [];
+            try {
+              const wsClient = require('../infra/websearch-client');
+              if (wsClient && typeof wsClient.bingWebSearch === 'function') {
+                results = await wsClient.bingWebSearch(userText);
+              } else {
+                throw new Error('websearch client unavailable');
+              }
+            } catch (loadErr) {
+              throw loadErr;
+            }
+
+            if (win) win.webContents.send('websearch:results', { query: userText, results });
+
+            if (Array.isArray(results) && results.length) {
+              const summary = results.map((r, i) => `[$${i+1}] ${r.name} - ${r.url}\n${r.snippet || ''}`).join('\n\n');
+              fullMessages.unshift({ role: 'system', content: `Websearch results for query: "${userText}"\n\n${summary}` });
+            }
+          } catch (wsErr) {
+            console.warn('[ai:chat] websearch failed:', wsErr?.message || wsErr);
+            if (win) win.webContents.send('ai:chunk', `⚠️ Websearch niet beschikbaar: ${wsErr?.message || 'onbekend'}`);
+          }
+        }
+      } catch (detectErr) {
+        console.warn('[ai:chat] intent detection failed:', detectErr?.message || detectErr);
+      }
 
       let result;
       try {
