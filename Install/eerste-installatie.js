@@ -1,24 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const { generateObjectFileName } = require("../src/utils/file-helpers");
 
-function utcTimestamp() {
-  const now = new Date();
-  const pad = (n, l = 2) => String(n).padStart(l, "0");
-  return (
-    now.getUTCFullYear() + "-" +
-    pad(now.getUTCMonth() + 1) + "-" +
-    pad(now.getUTCDate()) + "T" +
-    pad(now.getUTCHours()) +
-    pad(now.getUTCMinutes()) +
-    pad(now.getUTCSeconds()) +
-    pad(now.getUTCMilliseconds(), 3) + "Z"
-  );
-}
-
-function uuid() {
-  return crypto.randomUUID();
-}
 
 function eersteInstallatie() {
   const baseDir = path.resolve(__dirname, "..");
@@ -54,8 +38,8 @@ function eersteInstallatie() {
 
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
-  // ✅ Genereer bestandsnaam
-  const filename = `${utcTimestamp()}_${uuid()}.json`;
+  // ✅ Genereer bestandsnaam via helper
+  const filename = generateObjectFileName();
   const filePath = path.join(dataDir, filename);
 
   // Zorg dat het startobject 'id' overeenkomt met de bestandsnaam (timestamp + uuid)

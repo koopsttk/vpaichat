@@ -1,3 +1,11 @@
+const crypto = require("crypto");
+/**
+ * Genereert een bestandsnaam op basis van UTC timestamp en UUID.
+ * Optioneel: geef een extensie (default: .json)
+ */
+function generateObjectFileName(ext = ".json") {
+  return `${utcStampTight()}_${crypto.randomUUID()}${ext}`;
+}
 /**
  * VPAICore – src/utils/fileHelpers.js
  * Rol: Utils: timestamps, pad helpers
@@ -43,5 +51,6 @@ function writeJSONAtomic(targetPath, obj) {
 module.exports = {
   utcStampTight,
   ensureDir,
-  writeJSONAtomic
+  writeJSONAtomic,
+  generateObjectFileName
 };

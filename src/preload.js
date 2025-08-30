@@ -23,10 +23,16 @@ const api = {
   setApiKey: (key) => ipcRenderer.invoke("key:testAndSave", key),
   getCompactIndex: () => ipcRenderer.invoke("index:get"),
   getKeyStatus: async () => {
-  const status = await ipcRenderer.invoke("core:getKeyStatus");
-  console.log("[preload] getKeyStatus returns:", status);
+    const status = await ipcRenderer.invoke("core:getKeyStatus");
+    console.log("[preload] getKeyStatus returns:", status);
     return status;
-  }
+  },
+  // Chatlog functies
+  createChatlogSession: () => ipcRenderer.invoke('chatlog:createSession'),
+  appendToChatlog: (filePath, entry) => ipcRenderer.invoke('chatlog:append', filePath, entry),
+  listChatlogs: () => ipcRenderer.invoke('chatlog:list'),
+  deleteChatlog: (filename) => ipcRenderer.invoke('chatlog:delete', filename),
+  openChatlog: (filename) => ipcRenderer.invoke('chatlog:open', filename)
 };
 
 const startobj = {

@@ -1,4 +1,100 @@
+/* Layout voor ChatGPT-style sidebar */
+#main-layout {
+  display: flex;
+  height: 100vh;
+}
+
+#sidebar {
+  width: 260px;
+  background: #23232a;
+  color: #ececf1;
+  border-left: 1px solid #444654;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.04);
+  z-index: 2;
+}
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 8px 16px;
+  border-bottom: 1px solid #444654;
+}
+#sidebar h2 {
+  font-size: 1.1em;
+  margin: 0;
+  color: #ececf1;
+}
+#sidebar #newChatBtn {
+  background: #0b93f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+#sidebar #newChatBtn:hover {
+  background: #1a9bff;
+}
+#chatlogList {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px 0 0 0;
+  list-style: none;
+}
+#chatlogList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.15s;
+  font-size: 0.98em;
+}
+#chatlogList li.active, #chatlogList li:hover {
+  background: #35363c;
+}
+#chatlogList button {
+  background: none;
+  border: none;
+  color: #b0b0b5;
+  font-size: 1.1em;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 2px;
+  transition: background 0.15s, color 0.15s;
+}
+#chatlogList button:hover {
+  background: #444654;
+  color: #fff;
+}
+
+#main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+}
 /* Licht thema */
+.light-theme #sidebar {
+  background: #f6f7f8;
+  color: #232323;
+  border-left: 1px solid #e0e0e0;
+}
+.light-theme #sidebar h2 {
+  color: #232323;
+}
+.light-theme #chatlogList li.active, .light-theme #chatlogList li:hover {
+  background: #e6e7eb;
+  color: #232323;
+}
 .light-theme {
   background-color: #f5f6fa;
   color: #232323;
@@ -14,7 +110,7 @@
   color: #6a6a6a;
 }
 .light-theme #chat {
-  background: #f5f6fa;
+  background: #fcfcfd;
 }
 .light-theme .msg.user {
   background-color: #0b93f6;

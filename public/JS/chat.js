@@ -20,7 +20,41 @@ let typingTimeout = null;
 export async function handleUserInput(rawText) {
   const api = API();
   const userMsg = (rawText || "").trim();
+  // Beschikbare commando's (uitbreidbaar)
+  const commandList = [
+    { cmd: '/startobject', desc: 'Toon het volledige startobject als JSON' },
+    { cmd: '/help', desc: 'Toon deze lijst met commando’s' }
+  ];
+
+  // /help of natuurlijke taal: toon commando-overzicht
+  if (userMsg === '/help' || /welke commando'?s? zijn er|commando-overzicht|help/i.test(userMsg)) {
+    const lines = commandList.map(c => `${c.cmd} — ${c.desc}`);
+    addMessage("ai", 'Beschikbare commando’s:\n' + lines.join('\n'));
+    return;
+  }
   if (!userMsg) return;
+
+  // Speciale command: /startobject toont het startobject als AI-bericht
+  if (userMsg === '/startobject') {
+    if (window.api?.getStartObject) {
+      try {
+        const obj = await window.api.getStartObject();
+        // Toon het volledige JSON-object, niet een samenvatting
+        addMessage("ai", '```json\n' + JSON.stringify(obj, null, 2) + '\n```');
+      } catch (e) {
+        addMessage("ai", "❌ Kon startobject niet ophalen");
+      }
+    } else {
+      addMessage("ai", "❌ getStartObject niet beschikbaar");
+    }
+    return;
+  }
+
+  // Haal context op uit app.js (indien beschikbaar)
+  let contextMsgs = [];
+  if (typeof window.getActiveChatContext === 'function') {
+    contextMsgs = window.getActiveChatContext();
+  }
 
   // Haal validatieparameters op uit config (via preload bridge)
   let maxInputLength = 500;
@@ -149,6 +183,17 @@ export async function handleUserInput(rawText) {
     const msgs = [];
     const SYSTEM_PROMPT = getSystemPrompt();
     if (SYSTEM_PROMPT) msgs.push({ role: "system", content: SYSTEM_PROMPT });
+    // Voeg context toe (oude berichten)
+    if (Array.isArray(contextMsgs) && contextMsgs.length > 0) {
+      for (const m of contextMsgs) {
+        if (m.role && m.message) {
+          let role = m.role;
+          if (role === 'ai') role = 'assistant';
+          msgs.push({ role, content: m.message });
+        }
+      }
+    }
+    // Voeg huidige user prompt toe
     msgs.push({ role: "user", content: userMsg });
 
     const res = await fn(msgs, "gpt-4o-mini");
@@ -165,6 +210,10 @@ export async function handleUserInput(rawText) {
 /** onStreamChunk(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 export function onStreamChunk(chunk) {
   if (!chunk) return;
+  // Log AI-antwoord indien logInteraction beschikbaar is (via window uit app.js)
+  if (typeof window.logInteraction === 'function') {
+    window.logInteraction('ai', chunk);
+  }
   if (typingTimeout) {
     clearTimeout(typingTimeout);
     typingTimeout = null;

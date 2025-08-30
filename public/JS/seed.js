@@ -15,14 +15,12 @@ let STARTOBJECT = null;
 
 /** buildSystemPrompt(): strikt SSOT — geen hardcoded fallback-teksten. */
 function buildSystemPrompt(startObj, indexArr) {
-  const compactIdx = (indexArr || []).map((it) => ({
-    id: it.id,
-    rol: it.rol,
-    titel: it.titel,
-    created: it.created,
-  }));
+  // 1. Gebruik defaultSystemPrompt als die bestaat
+  if (startObj?.defaultSystemPrompt) {
+    return startObj.defaultSystemPrompt;
+  }
 
-  // Header uitsluitend uit startobject (prompt.header → array|string) of instructions
+  // 2. Anders: header uit prompt.header (array of string)
   const soHeaderArr =
     (Array.isArray(startObj?.prompt?.header) && startObj.prompt.header.length > 0)
       ? startObj.prompt.header
@@ -34,22 +32,10 @@ function buildSystemPrompt(startObj, indexArr) {
 
   if (!soHeaderArr.length) {
     // Strikt: fail fast i.p.v. code-fallbacks
-    throw new Error("Startobject mist 'prompt.header' en 'instructions' — geen system-header beschikbaar (SSOT).");
+    throw new Error("Startobject mist 'defaultSystemPrompt', 'prompt.header' en 'instructions' — geen system-header beschikbaar (SSOT).");
   }
 
-  const header = soHeaderArr.join(" ");
-
-  const startCore = startObj
-    ? {
-        id: startObj.id,
-        rol: startObj.rol,
-        titel: startObj.titel,
-        omschrijving: startObj.omschrijving,
-        instructions: startObj.instructions,
-      }
-    : null;
-
-  return `${header}\n\n[INDEX]\n${JSON.stringify(compactIdx)}\n\n[STARTOBJECT]\n${JSON.stringify(startCore)}`;
+  return soHeaderArr.join(" ");
 }
 
 /** loadSeedAndBindUI(): haalt SSOT op, zet UI-titel/omschrijving en bouwt system prompt. */

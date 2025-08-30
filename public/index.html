@@ -12,27 +12,34 @@
   <link id="hljs-theme" rel="stylesheet" href="vendor/highlight.atom-one-dark.css" />
 </head>
 <body>
-  <header>
-<h1 data-start-title>Ongetitelde installatie</h1>
-<p data-start-desc></p>
-</header>
 
-  <div id="chat"></div>
-
-  <div id="inputBar">
-    <textarea id="input" placeholder="Typ je bericht..." rows="1"></textarea>
-    <button id="send">Verstuur</button>
+  <div id="main-layout">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h2>Chats</h2>
+        <button id="newChatBtn" title="Nieuwe chat starten">Nieuwe chat</button>
+      </div>
+      <ul id="chatlogList"></ul>
+    </aside>
+    <div id="main-content">
+      <header>
+        <h1 data-start-title>Ongetitelde installatie</h1>
+        <p data-start-desc></p>
+      </header>
+      <div id="chat"></div>
+      <div id="inputBar">
+        <textarea id="input" placeholder="Typ je bericht..." rows="1"></textarea>
+        <button id="send">Verstuur</button>
+      </div>
+      <footer id="statusbar">
+        <span id="st-model">model: gpt-4o-mini</span>
+        <span id="st-key">key: ?</span>
+        <span id="st-data">data: ?</span>
+        <span id="st-tokens">tokens: 0</span>
+        <button id="theme-toggle" title="Wissel licht/donker thema">319</button>
+      </footer>
+    </div>
   </div>
-
-  <footer id="statusbar">
-  <span id="st-model">model: gpt-4o-mini</span>
-  <span id="st-key">key: ?</span>
-  <span id="st-data">data: ?</span>
-  <span id="st-tokens">tokens: 0</span>
-  <button id="theme-toggle" title="Wissel licht/donker thema">🌙</button>
-  </footer>
-
-  
   <script src="vendor/highlight.min.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>

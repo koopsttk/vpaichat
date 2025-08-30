@@ -1,0 +1,36 @@
+{
+  "sessionId": "50f09b0e-dd08-4c56-aba7-55caa3fee071",
+  "created": "2025-08-30T12:17:28.735Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "wat zijn de keywords?",
+      "timestamp": "2025-08-30T12:17:35.020Z"
+    },
+    {
+      "role": "ai",
+      "message": "Kun je specificeren waar de keywords voor nodig zijn? Bijvoorbeeld voor een bepaald onderwerp of project?",
+      "timestamp": "2025-08-30T12:17:35.914Z"
+    },
+    {
+      "role": "user",
+      "message": "van het startobject",
+      "timestamp": "2025-08-30T12:17:41.684Z"
+    },
+    {
+      "role": "ai",
+      "message": "Kun je het startobject verder toelichten? Wat is de context of het onderwerp waar je de keywords voor nodig hebt?",
+      "timestamp": "2025-08-30T12:17:42.615Z"
+    },
+    {
+      "role": "user",
+      "message": "hoe herken jij het startobject nog meer.. met welke namen?",
+      "timestamp": "2025-08-30T12:18:07.412Z"
+    },
+    {
+      "role": "ai",
+      "message": "Het startobject kan ook bekend zijn onder termen zoals \"initieel object\", \"basisobject\", \"hoofdobject\" of \"referentieobject\". Heb je specifieke context of een bepaald domein in gedachten?",
+      "timestamp": "2025-08-30T12:18:08.546Z"
+    }
+  ]
+}

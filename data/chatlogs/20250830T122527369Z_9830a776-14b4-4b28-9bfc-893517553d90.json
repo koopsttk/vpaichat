@@ -1,0 +1,16 @@
+{
+  "sessionId": "9830a776-14b4-4b28-9bfc-893517553d90",
+  "created": "2025-08-30T12:25:27.369Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "tsfd",
+      "timestamp": "2025-08-30T12:25:27.375Z"
+    },
+    {
+      "role": "ai",
+      "message": "Het lijkt erop dat je een foutieve invoer hebt gedaan. Kun je je vraag of opmerking verduidelijken?",
+      "timestamp": "2025-08-30T12:25:28.405Z"
+    }
+  ]
+}
