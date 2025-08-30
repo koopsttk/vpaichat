@@ -1,6 +1,13 @@
 # 📊 VPAICore Status Overzicht
 
 ## Blauwdruk
+
+## Huidige functionaliteit
+- Startobject bepaalt AI-context en UI (titel/omschrijving)
+- Chatten met AI op basis van SSOT-instructies
+- Data en chatlogs als losse JSON-bestanden, met automatische backups
+- API-key beheer via wizard en encryptie
+- Logging en configuratie centraal geregeld
 - Versie: **v0.2 – August 2025**
 - Toegevoegd: Documentatie & snelkoppelingen
 - Changelog aanwezig in Blauwdruk zelf

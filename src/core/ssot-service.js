@@ -1,3 +1,4 @@
+const { logError } = require('./logger-service');
 /**
  * VPAICore – src/core/ssot2.js
  * Rol: Core: SSOT helpers (2e generatie)
@@ -27,12 +28,22 @@ const INDEX = path.join(dataDir, "_index.json");
 /** readIndex(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function readIndex() {
   if (!fs.existsSync(INDEX)) return [];
-  return readJSON(INDEX);
+  try {
+    return readJSON(INDEX);
+  } catch (err) {
+    logError('Fout bij lezen van _index.json (mogelijk corrupt): ' + INDEX, err);
+    throw new Error('Indexbestand (_index.json) is corrupt of niet leesbaar. Zie logs voor details.');
+  }
 }
 
 /** writeIndex(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function writeIndex(arr) {
-  writeJSONAtomic(INDEX, arr);
+  try {
+    writeJSONAtomic(INDEX, arr);
+  } catch (err) {
+    logError('Fout bij schrijven van _index.json: ' + INDEX, err);
+    throw new Error('Kon indexbestand niet opslaan. Zie logs voor details.');
+  }
 }
 
 /** newId(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
@@ -50,23 +61,48 @@ function createObject(obj) {
   const id = obj.id || newId();
   const file = path.join(dataDir, objectFileName(id));
   const saved = { ...obj, id };
-  writeJSONAtomic(file, saved);
-
-  const idx = readIndex();
+  try {
+    writeJSONAtomic(file, saved);
+  } catch (err) {
+    logError('Fout bij schrijven van objectbestand: ' + file, err);
+    throw new Error('Kon object niet opslaan. Zie logs voor details.');
+  }
+  let idx;
+  try {
+    idx = readIndex();
+  } catch (err) {
+    logError('Fout bij lezen van index tijdens createObject: ' + INDEX, err);
+    throw new Error('Kon index niet lezen. Zie logs voor details.');
+  }
   idx.push({ id, rol: obj.rol || null, titel: obj.titel || null, created: new Date().toISOString(), file: path.basename(file) });
-  writeIndex(idx);
-
+  try {
+    writeIndex(idx);
+  } catch (err) {
+    logError('Fout bij bijwerken van index tijdens createObject: ' + INDEX, err);
+    throw new Error('Kon index niet bijwerken. Zie logs voor details.');
+  }
   return saved;
 }
 
 /** readObjectById(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function readObjectById(id) {
-  const idx = readIndex();
+  let idx;
+  try {
+    idx = readIndex();
+  } catch (err) {
+    logError('Fout bij lezen van index tijdens readObjectById: ' + INDEX, err);
+    return null;
+  }
   const hit = idx.find(i => i.id === id);
   if (!hit) return null;
   const file = path.join(dataDir, hit.file);
   if (!fs.existsSync(file)) return null;
-  return readJSON(file);
+  try {
+    return readJSON(file);
+  } catch (err) {
+    logError('Fout bij lezen van objectbestand (mogelijk corrupt): ' + file, err);
+    return null;
+  }
 }
 
 /** updateObject(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
@@ -75,16 +111,31 @@ function updateObject(id, patch) {
   if (!obj) throw new Error("Object niet gevonden");
   const updated = { ...obj, ...patch };
   // hergebruik bestaand bestandspad
-  const idx = readIndex();
+  let idx;
+  try {
+    idx = readIndex();
+  } catch (err) {
+    logError('Fout bij lezen van index tijdens updateObject: ' + INDEX, err);
+    throw new Error('Kon index niet lezen. Zie logs voor details.');
+  }
   const hit = idx.find(i => i.id === id);
   const file = path.join(dataDir, hit.file);
-  writeJSONAtomic(file, updated);
-
+  try {
+    writeJSONAtomic(file, updated);
+  } catch (err) {
+    logError('Fout bij schrijven van objectbestand tijdens updateObject: ' + file, err);
+    throw new Error('Kon object niet opslaan. Zie logs voor details.');
+  }
   // evt. index bijwerken als titel/rol wijzigt
   if (patch.titel || patch.rol) {
     hit.titel = patch.titel ?? hit.titel;
     hit.rol   = patch.rol   ?? hit.rol;
-    writeIndex(idx);
+    try {
+      writeIndex(idx);
+    } catch (err) {
+      logError('Fout bij bijwerken van index tijdens updateObject: ' + INDEX, err);
+      throw new Error('Kon index niet bijwerken. Zie logs voor details.');
+    }
   }
   return updated;
 }

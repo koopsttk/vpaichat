@@ -32,7 +32,8 @@ const api = {
   appendToChatlog: (filePath, entry) => ipcRenderer.invoke('chatlog:append', filePath, entry),
   listChatlogs: () => ipcRenderer.invoke('chatlog:list'),
   deleteChatlog: (filename) => ipcRenderer.invoke('chatlog:delete', filename),
-  openChatlog: (filename) => ipcRenderer.invoke('chatlog:open', filename)
+  openChatlog: (filename) => ipcRenderer.invoke('chatlog:open', filename),
+  renameChatlogTitle: (...args) => ipcRenderer.invoke('renameChatlogTitle', ...args),
 };
 
 const startobj = {

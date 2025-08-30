@@ -14,8 +14,9 @@
 const { ipcMain } = require("electron");
 const { registerStartObjectIpc } = require("./start-object.ipc");
 const { registerChatIpc } = require("./chat.ipc");
-const { registerKeyIpc } = require("./key.ipc");
 const { registerChatlogIpc } = require("./chatlog.ipc");
+const { registerChatlogTitleIpc } = require("./chatlog-title.ipc");
+const { registerKeyIpc } = require("./key.ipc");
 
 let _registered = false;
 
@@ -24,6 +25,7 @@ function registerIpc() {
   if (_registered) return;
   registerStartObjectIpc(ipcMain);
   registerChatIpc(ipcMain);
+  registerChatlogTitleIpc(ipcMain);
   registerKeyIpc(ipcMain);
   registerChatlogIpc(ipcMain);
   _registered = true;

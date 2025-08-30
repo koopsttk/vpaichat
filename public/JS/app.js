@@ -89,9 +89,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       li.style.marginBottom = '0.2em';
       // Titel ophalen: eerste user-bericht, anders '…' bij lege chat, anders bestandsnaam
       let title = '…';
+      let customTitle = null;
       if (window.api?.openChatlog) {
         try {
           const data = await window.api.openChatlog(filename);
+          if (data && typeof data.title === 'string' && data.title.trim()) {
+            customTitle = data.title.trim();
+          }
           if (data && Array.isArray(data.log)) {
             const firstUser = data.log.find(e => e.role === 'user' && e.message);
             if (firstUser) {
@@ -111,7 +115,47 @@ document.addEventListener("DOMContentLoaded", async () => {
           } catch {}
         }
       }
-      li.textContent = title;
+      // Gebruik customTitle als die bestaat
+      const displayTitle = customTitle || title;
+      // Titel als span (voor inline edit)
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = displayTitle;
+      titleSpan.style.flex = '1';
+      titleSpan.title = 'Dubbelklik om titel te wijzigen';
+      titleSpan.ondblclick = (e) => {
+        e.stopPropagation();
+        // Maak input aan
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = displayTitle;
+        input.style.flex = '1';
+        input.style.fontSize = '1em';
+        input.onblur = async () => {
+          const newTitle = input.value.trim();
+          if (newTitle && newTitle !== displayTitle) {
+            if (window.api?.renameChatlogTitle) {
+              await window.api.renameChatlogTitle(filename, newTitle);
+              await renderChatlogList();
+            } else {
+              toast('Titel wijzigen niet geïmplementeerd', 'error');
+            }
+          } else {
+            titleSpan.textContent = displayTitle;
+            li.replaceChild(titleSpan, input);
+          }
+        };
+        input.onkeydown = async (ev) => {
+          if (ev.key === 'Enter') {
+            input.blur();
+          } else if (ev.key === 'Escape') {
+            li.replaceChild(titleSpan, input);
+          }
+        };
+        li.replaceChild(input, titleSpan);
+        input.focus();
+        input.select();
+      };
+      li.appendChild(titleSpan);
       // Klik op li: laad deze chatlog
       li.onclick = async (e) => {
         if (activeChatlog === filename) return;

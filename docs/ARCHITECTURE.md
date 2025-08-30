@@ -2,6 +2,16 @@
 
 **Doel:** compacte uitleg van de runtime-rollen en koppelingen, afgestemd op de Blauwdruk.
 
+## Huidige functionaliteit
+
+- De app start altijd vanuit het SSOT-startobject (zie `/data`), waarvan het pad uit de config wordt gehaald.
+- Gebruikersinterface toont titel/omschrijving uit het startobject.
+- Chatfunctionaliteit met AI, waarbij de context en instructies uit het startobject worden gebruikt.
+- Alle data-objecten worden als losse JSON-bestanden opgeslagen; wijzigingen worden automatisch geback-upt.
+- API-key management via wizard en versleutelde opslag.
+- Centrale logging naar `/logs/error.log`.
+- Configuratie en paden altijd via `ini.json` (absoluut gemaakt).
+
 ## Componenten
 - **Electron main (`src/main.js`)** – maakt het venster en registreert IPC. *Geen domeinlogica.*
 - **Preload (`src/preload.js`)** – expose `window.api` (IPC proxies). *Geen domeinlogica.*
