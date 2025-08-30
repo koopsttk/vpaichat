@@ -17,10 +17,10 @@ const { readStartObject } = require("./core/start-object-loader");
 const { createMainWindow } = require("./ui/main-window");
 const { loadApiKey } = require("./infra/api-key-store");
 const { createKeyWindow } = require("./ui/key-window");
-const { getAppConfig } = require("./core/config.service.js");
+const { getAppConfig } = require("./core/config-service.js");
 const { getKeyStatus } = require("./core/get-key-status");
-const { logError } = require('./core/logger.service');
-const { getConfig } = require('./core/config.service');
+const { logError } = require('./core/logger-service');
+const { getConfig } = require('./core/config-service');
 const fs = require('fs');
 
 const config = getConfig();

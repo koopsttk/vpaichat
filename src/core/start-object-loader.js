@@ -12,7 +12,7 @@
 
  const fs = require("fs");
  const path = require("path");
- const { getConfig } = require("./config.service");
+ const { getConfig } = require("./config-service");
  const { readJSON } = require("../utils/file-helpers");
 
  function resolveStartObjectPath() {

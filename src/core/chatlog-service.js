@@ -5,7 +5,7 @@ const fs = require('fs');
 const { writeJSON, readJSON } = require('../utils/file-helpers');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { getConfig } = require('./config.service');
+const { getConfig } = require('./config-service');
 
 // Maak een nieuwe chatlog sessie aan en retourneer het pad
 function createChatlogSession() {

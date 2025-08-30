@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { getConfig } = require('../core/config.service');
-const { logError } = require('../core/logger.service');
+const { getConfig } = require('../core/config-service');
+const { logError } = require('../core/logger-service');
 
 const configPath = path.join(__dirname, '../../config/ini.json');
 

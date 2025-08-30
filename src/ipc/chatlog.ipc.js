@@ -1,11 +1,11 @@
 // src/ipc/chatlog.ipc.js
 // IPC handlers voor chatlog service
 
-const chatlogService = require('../core/chatlog.service');
+const chatlogService = require('../core/chatlog-service');
 
 const fs = require('fs');
 const path = require('path');
-const { getConfig } = require('../core/config.service');
+const { getConfig } = require('../core/config-service');
 
 function registerChatlogIpc(ipcMain) {
     // Start een nieuwe chatlog sessie

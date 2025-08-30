@@ -16,7 +16,7 @@ const path = require("path");
 
 const { readStartObject, resolveStartObjectPath } = require("./start-object-loader");
 const { utcStampTight, ensureDir, writeJSONAtomic, readJSON, writeJSON } = require("../utils/file-helpers");
-const { getConfig, getAppConfig } = require("./config.service");
+const { getConfig, getAppConfig } = require("./config-service");
 
 /** dataDir(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function dataDir() {
