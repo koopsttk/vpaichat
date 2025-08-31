@@ -124,3 +124,5 @@ ipcMain.handle("core:getKeyStatus", () => {
   console.log("[IPC] getKeyStatus:", status);
   return status;
 });
+
+require('./ipc/key.ipc'); // Zorg ervoor dat de nieuwe handler wordt geladen

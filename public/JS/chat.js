@@ -5,7 +5,7 @@
  * Belangrijk: Injecteer SYSTEM_PROMPT vóór user bericht; Enter vs Shift+Enter
  *
  * Conventies:
- * - Houd main.js dun (alleen IPC doorverwijzers).
+ * - Houd main.js dun (alleen IPC doorverwijsers).
  * - Startobject is SSOT-regiekamer; pad hard uit init/ini.json of config/ini.json.
  * - AI seed: compacte index + startobject in system prompt (renderer of service).
  */
@@ -23,7 +23,8 @@ export async function handleUserInput(rawText) {
   // Beschikbare commando's (uitbreidbaar)
   const commandList = [
     { cmd: '/startobject', desc: 'Toon het volledige startobject als JSON' },
-    { cmd: '/help', desc: 'Toon deze lijst met commando’s' }
+    { cmd: '/help', desc: 'Toon deze lijst met commando’s' },
+    { cmd: '/key', desc: 'Open de sleutelpagina (key.html)' }
   ];
 
   // /help of natuurlijke taal: toon commando-overzicht
@@ -46,6 +47,21 @@ export async function handleUserInput(rawText) {
       }
     } else {
       addMessage("ai", "❌ getStartObject niet beschikbaar");
+    }
+    return;
+  }
+
+  // Speciale command: /key opent de key.html pagina
+  if (userMsg === '/key') {
+    if (window.api?.openKeyPage) {
+      try {
+        await window.api.openKeyPage();
+        addMessage("ai", "De sleutelpagina is geopend.");
+      } catch (err) {
+        addMessage("ai", "Er is een fout opgetreden bij het openen van de sleutelpagina.");
+      }
+    } else {
+      addMessage("ai", "De sleutelpagina kan niet worden geopend. IPC-handler ontbreekt.");
     }
     return;
   }

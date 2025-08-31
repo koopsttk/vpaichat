@@ -64,4 +64,4 @@ function loadApiKey() {
   }
 }
 
-module.exports = { saveApiKey, loadApiKey };
+module.exports = { saveApiKey, loadApiKey, encrypt };

@@ -17,6 +17,9 @@ contextBridge.exposeInMainWorld("keyWizard", {
   submit: (key) => ipcRenderer.invoke("key:testAndSave", key),
   cancel: () => ipcRenderer.invoke("key:cancel"),
 
+  // Sla Google API key op via main
+  saveGoogleKey: (googleKey) => ipcRenderer.invoke('save-google-key', googleKey),
+
   // feedback events (tekstregels uit main pushen)
   onFeedback: (cb) => {
     const channel = "key:feedback";

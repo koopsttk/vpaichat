@@ -24,6 +24,8 @@ const api = {
     ipcRenderer.on('websearch:results', (_evt, data) => cb?.(data)),
   getApiKey: () => ipcRenderer.invoke("core:getApiKey"),
   setApiKey: (key) => ipcRenderer.invoke("key:testAndSave", key),
+  // Allow saving Google key from renderers that use the main preload
+  saveGoogleKey: (googleKey) => ipcRenderer.invoke('save-google-key', googleKey),
   getCompactIndex: () => ipcRenderer.invoke("index:get"),
   getKeyStatus: async () => {
     const status = await ipcRenderer.invoke("core:getKeyStatus");
@@ -37,6 +39,7 @@ const api = {
   deleteChatlog: (filename) => ipcRenderer.invoke('chatlog:delete', filename),
   openChatlog: (filename) => ipcRenderer.invoke('chatlog:open', filename),
   renameChatlogTitle: (...args) => ipcRenderer.invoke('renameChatlogTitle', ...args),
+  openKeyPage: () => ipcRenderer.invoke('/key')
 };
 
 const startobj = {

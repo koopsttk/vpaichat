@@ -9,7 +9,7 @@ function createKeyWindow() {
     resizable: false,
     title: "API key instellen",
     webPreferences: {
-      preload: path.join(__dirname, "../infra/key_preload.js"),
+  preload: path.join(__dirname, "../infra/key-preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,

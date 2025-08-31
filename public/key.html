@@ -24,13 +24,27 @@
     <div id="feedback" class="muted"></div>
     <div class="muted">Key wordt lokaal versleuteld opgeslagen (machine-gebonden).</div>
     <span id="st-key"></span>
+    <h3>Google API key</h3>
+    <input id="google-key" type="password" placeholder="Voer je Google API key in...">
+    <div class="row">
+      <button id="save-google-key">Opslaan</button>
+    </div>
+    <div id="google-feedback" class="muted"></div>
   </div>
+  <script src="JS/key.js"></script>
   <script>
     const keyEl = document.getElementById('key');
     const fb = document.getElementById('feedback');
-    window.keyWizard.onFeedback((msg) => { fb.textContent = msg; });
-    document.getElementById('save').onclick = () => window.keyWizard.submit((keyEl.value||'').trim());
-    document.getElementById('cancel').onclick = () => window.keyWizard.cancel();
+    if (window.keyWizard) {
+      try { window.keyWizard.onFeedback((msg) => { fb.textContent = msg; }); } catch (e) {}
+      document.getElementById('save').onclick = () => window.keyWizard.submit((keyEl.value||'').trim());
+      document.getElementById('cancel').onclick = () => window.keyWizard.cancel();
+    } else {
+      // Fallback: disable save/cancel buttons if no preload present
+      document.getElementById('save').disabled = true;
+      document.getElementById('cancel').disabled = true;
+      fb.textContent = 'Key-wizard niet beschikbaar (preload ontbreekt).';
+    }
   </script>
 </body>
 </html>
