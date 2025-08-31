@@ -1,0 +1,66 @@
+{
+  "sessionId": "a4d81fa7-162a-4619-b01b-062cadb8a68e",
+  "created": "2025-08-31T19:28:01.790Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "test",
+      "timestamp": "2025-08-31T19:28:01.797Z"
+    },
+    {
+      "role": "ai",
+      "message": "Test ontvangen. Wat kan ik voor je doen?",
+      "timestamp": "2025-08-31T19:28:02.610Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek een spreekgestoelte leverancier in nederland die houten spreekgestoeltes maakt",
+      "timestamp": "2025-08-31T19:28:25.298Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek op het internet naar villa proctrl",
+      "timestamp": "2025-08-31T19:28:49.186Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek op het internet naar villa proctrl",
+      "timestamp": "2025-08-31T19:32:13.907Z"
+    },
+    {
+      "role": "user",
+      "message": "heb je het adress van villa proctrl?",
+      "timestamp": "2025-08-31T19:32:36.929Z"
+    },
+    {
+      "role": "ai",
+      "message": "Ik kan geen actuele internetgegevens opzoeken. Je kunt Villa Proctrl vinden via een zoekmachine of hun website voor het adres. Heb je meer context of specifieke informatie nodig?",
+      "timestamp": "2025-08-31T19:32:38.250Z"
+    },
+    {
+      "role": "user",
+      "message": "kun je die op het internet opzoeken?",
+      "timestamp": "2025-08-31T19:32:46.176Z"
+    },
+    {
+      "role": "ai",
+      "message": "Ik kan geen internetzoekopdrachten uitvoeren. Je kunt echter zelf zoeken naar \"Villa Proctrl\" via een zoekmachine. Heb je specifieke informatie nodig over deze leverancier?",
+      "timestamp": "2025-08-31T19:32:47.531Z"
+    },
+    {
+      "role": "user",
+      "message": "wil je het adress van villa proctrll opzoeken",
+      "timestamp": "2025-08-31T19:33:04.424Z"
+    },
+    {
+      "role": "ai",
+      "message": "Ik kan geen internetzoekopdrachten uitvoeren. Je kunt echter zelf de website van Villa Proctrl bezoeken of een zoekmachine gebruiken om het adres te vinden. Heb je meer specifieke informatie nodig?",
+      "timestamp": "2025-08-31T19:33:05.782Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek op het internet naar villa proctrl",
+      "timestamp": "2025-08-31T19:33:13.421Z"
+    }
+  ]
+}

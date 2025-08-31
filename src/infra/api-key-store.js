@@ -14,7 +14,6 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-//const ENC_FILE = path.join(__dirname, "apikey.enc");
 const ENC_FILE = path.resolve(__dirname, "../../config/apikey.enc");
 const ALGO = "aes-256-cbc";
 
@@ -64,4 +63,5 @@ function loadApiKey() {
   }
 }
 
-module.exports = { saveApiKey, loadApiKey, encrypt };
+// Exporteer decrypt zodat andere modules (zoals google key loader) deze kunnen gebruiken
+module.exports = { saveApiKey, loadApiKey, encrypt, decrypt };

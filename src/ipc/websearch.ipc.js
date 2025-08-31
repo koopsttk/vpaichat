@@ -1,11 +1,15 @@
 // src/ipc/websearch.ipc.js
 // IPC handler voor websearch (optioneel inschakelbaar)
-ipcMain.handle('websearch:query', async (event, query) => {
+
+
 function registerWebsearchIpc(ipcMain) {
-  const { bingWebSearch } = require('../infra/websearch-client');
-  ipcMain.handle('websearch:query', async (event, query) => {
+  try { ipcMain.removeHandler('websearch:query'); } catch {}
+  const { googleWebSearch } = require('../infra/websearch-client');
+  const { semanticWebsearch } = require('../core/semantic-search');
+  ipcMain.handle('websearch:query', async (_event, query) => {
     try {
-      const results = await bingWebSearch(query);
+      // Gebruik semantische zoekpipeline, backend is googleWebSearch
+      const results = await semanticWebsearch(query, googleWebSearch);
       return { ok: true, results };
     } catch (e) {
       return { ok: false, error: e.message };

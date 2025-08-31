@@ -1,0 +1,21 @@
+{
+  "sessionId": "902655fa-e57c-4802-bd5e-4c3c8e1574ba",
+  "created": "2025-08-31T19:36:52.601Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "zoek proctrk op het internet",
+      "timestamp": "2025-08-31T19:36:52.611Z"
+    },
+    {
+      "role": "user",
+      "message": "ik zoek een rvs leverancier in groningen",
+      "timestamp": "2025-08-31T19:37:10.016Z"
+    },
+    {
+      "role": "user",
+      "message": "ik zoek een rvs leverancier in groningen",
+      "timestamp": "2025-08-31T19:37:27.381Z"
+    }
+  ]
+}

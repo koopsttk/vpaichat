@@ -203,6 +203,22 @@ export async function handleUserInput(rawText) {
 
   // Streaming placeholder wordt nu niet meer gebruikt, want typ animatie is al getoond
 
+  // Natuurlijke taal zoekopdrachten
+  if (/\b(zoek|zoeken|vind|zoek op het internet naar)\b/i.test(userMsg)) {
+    try {
+      const searchResults = await api.searchWithNaturalLanguage(userMsg);
+      if (searchResults.length > 0) {
+        const formattedResults = searchResults.map(r => `- [${r.title}](${r.link}): ${r.snippet}`).join('\n');
+        addMessage("ai", `🔍 Zoekresultaten:\n${formattedResults}`);
+      } else {
+        addMessage("ai", "❌ Geen resultaten gevonden.");
+      }
+    } catch (err) {
+      addMessage("ai", "❌ Er is een fout opgetreden bij het uitvoeren van de zoekopdracht.");
+    }
+    return;
+  }
+
   try {
     const fn = api.aiChat;
     if (typeof fn !== "function") {

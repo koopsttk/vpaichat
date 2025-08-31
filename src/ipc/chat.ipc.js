@@ -85,8 +85,8 @@ function registerChatIpc(ipcMain) {
             let results = [];
             try {
               const wsClient = require('../infra/websearch-client');
-              if (wsClient && typeof wsClient.bingWebSearch === 'function') {
-                results = await wsClient.bingWebSearch(userText);
+              if (wsClient && typeof wsClient.googleWebSearch === 'function') {
+                results = await wsClient.googleWebSearch(userText);
               } else {
                 throw new Error('websearch client unavailable');
               }

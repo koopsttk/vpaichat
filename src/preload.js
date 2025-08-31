@@ -22,6 +22,13 @@ const api = {
     ipcRenderer.on("ai:chunk", (_evt, data) => cb?.(data)),
   onWebsearchResults: (cb) =>
     ipcRenderer.on('websearch:results', (_evt, data) => cb?.(data)),
+  // Websearch directe NL functie (invoke) -> geeft altijd een array terug of throwt
+  searchWithNaturalLanguage: async (input) => {
+    const res = await ipcRenderer.invoke('websearch:query', input);
+    if (!res) throw new Error('Leeg websearch antwoord');
+    if (res.ok !== true) throw new Error(res.error || 'Websearch fout');
+    return Array.isArray(res.results) ? res.results : [];
+  },
   getApiKey: () => ipcRenderer.invoke("core:getApiKey"),
   setApiKey: (key) => ipcRenderer.invoke("key:testAndSave", key),
   // Allow saving Google key from renderers that use the main preload
