@@ -1,0 +1,10 @@
+{
+  "results_per_page": 5,
+  "timeout_ms": 5000,
+  "whitelist": [],
+  "blacklist": ["marktplaats.nl", "bol.com"],
+  "deduplicate_by_domain": true,
+  "safemode": true,
+  "verbose_logging": false,
+  "expand_short_query": ["informatie", "prijs", "overzicht"]
+}
