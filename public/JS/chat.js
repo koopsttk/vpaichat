@@ -97,6 +97,17 @@ export async function handleUserInput(rawText) {
     toast(`Input te kort (min ${minInputLength} tekens)`, "error");
     return;
   }
+
+  // Controleer eerst op onbekende commando's
+  if (userMsg.startsWith("/")) {
+    const knownCommands = commandList.map(c => c.cmd);
+    if (!knownCommands.includes(userMsg)) {
+      toast("Onbekend commando ingevoerd.", "error");
+      return;
+    }
+  }
+
+  // Validatie voor niet-toegestane tekens en andere regels
   if (!allowedChars.test(userMsg)) {
     toast("Input bevat niet-toegestane tekens.", "error");
     return;
@@ -135,8 +146,11 @@ export async function handleUserInput(rawText) {
     return;
   }
   if (!allowCommands && userMsg.startsWith("/")) {
-    toast("Commando's zijn niet toegestaan.", "error");
-    return;
+    const knownCommands = commandList.map(c => c.cmd);
+    if (!knownCommands.includes(userMsg)) {
+      toast("Onbekend commando ingevoerd.", "error");
+      return;
+    }
   }
 
 

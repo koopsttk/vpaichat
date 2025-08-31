@@ -1,0 +1,26 @@
+{
+  "sessionId": "995380a7-0b98-4826-a6b3-175bc99c8e86",
+  "created": "2025-08-31T16:56:28.384Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "test",
+      "timestamp": "2025-08-31T16:56:28.390Z"
+    },
+    {
+      "role": "ai",
+      "message": "Test ontvangen. Hoe kan ik je helpen?",
+      "timestamp": "2025-08-31T16:56:29.231Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek ene spreekgestoelte in de regio groningen",
+      "timestamp": "2025-08-31T16:56:42.466Z"
+    },
+    {
+      "role": "ai",
+      "message": "Kun je specificeren wat voor soort spreekgestoelte je zoekt? Bijvoorbeeld voor een evenement, een conferentie of een andere gelegenheid? En heb je voorkeur voor een specifieke locatie binnen de regio Groningen?",
+      "timestamp": "2025-08-31T16:56:43.811Z"
+    }
+  ]
+}
