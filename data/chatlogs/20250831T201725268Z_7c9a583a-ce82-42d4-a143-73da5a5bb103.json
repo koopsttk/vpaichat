@@ -1,0 +1,61 @@
+{
+  "sessionId": "7c9a583a-ce82-42d4-a143-73da5a5bb103",
+  "created": "2025-08-31T20:17:25.268Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "kan ik ergens bepalen of tellen hoeveel tokens ik per call of in totaal in een chat heb gebruikt?",
+      "timestamp": "2025-08-31T20:17:25.274Z"
+    },
+    {
+      "role": "ai",
+      "message": "Ja, je kunt het aantal tokens dat je per call of in totaal in een chat hebt gebruikt, bijhouden. Dit hangt echter af van de specifieke implementatie van de API of het platform dat je gebruikt. Meestal kun je deze informatie vinden in de documentatie van de API of door gebruik te maken van logging in je applicatie. Heb je specifieke details nodig over een bepaalde API?",
+      "timestamp": "2025-08-31T20:17:26.989Z"
+    },
+    {
+      "role": "user",
+      "message": "het gaat om die van ai",
+      "timestamp": "2025-08-31T20:17:47.867Z"
+    },
+    {
+      "role": "ai",
+      "message": "Bij de meeste AI-platforms, zoals OpenAI, kun je het aantal tokens dat je gebruikt hebt per API-call meestal terugvinden in de response van de API. Vaak wordt het aantal tokens dat voor een specifieke request is gebruikt, gerapporteerd in de response. \n\nOm het totaal aantal tokens in een chat bij te houden, moet je zelf een teller implementeren die de tokens van elke response optelt. Heb je hulp nodig bij het implementeren hiervan?",
+      "timestamp": "2025-08-31T20:17:50.357Z"
+    },
+    {
+      "role": "user",
+      "message": "ik zit aan een soort log bestand te denken in de toekomst.. zodat ik een overzicht krijg van gebruik per dag maand etc..",
+      "timestamp": "2025-08-31T20:18:36.931Z"
+    },
+    {
+      "role": "ai",
+      "message": "Dat is een goed idee! Je kunt een logbestand opzetten waarin je elke API-call en het bijbehorende aantal tokens registreert. Hier is een eenvoudige aanpak:\n\n1. **Logstructuur**: Maak een logbestand (bijvoorbeeld een CSV of JSON) waarin je de volgende gegevens opslaat:\n   - Datum en tijd van de call\n   - Aantal gebruikte tokens\n   - Eventuele andere relevante informatie (bijv. type request)\n\n2. **Invoeren van gegevens**: Na elke API-call, schrijf je een functie die de gegevens naar het logbestand schrijft.\n\n3. **Analyseren van gegevens**: Je kunt scripts schrijven om het logbestand te analyseren en rapporten te genereren over gebruik per dag, maand, etc.\n\nHeb je specifieke vragen over de implementatie of het formaat van het logbestand?",
+      "timestamp": "2025-08-31T20:18:40.204Z"
+    },
+    {
+      "role": "user",
+      "message": "het gaat me niet om de centen perse.. maar wil straks wat inzicht krijgen hoeveel het is ",
+      "timestamp": "2025-08-31T20:19:46.083Z"
+    },
+    {
+      "role": "ai",
+      "message": "Begrijpelijk! Voor inzicht in het tokengebruik kun je de volgende stappen volgen:\n\n1. **Loggen**: Registreer elke API-call met het aantal gebruikte tokens in een logbestand. Dit kan eenvoudig in tekstformaat, CSV of JSON.\n\n2. **Tijdstempels**: Voeg tijdstempels toe aan elke entry, zodat je later kunt filteren op datum of periode.\n\n3. **Analyseren**: Schrijf een script dat het logbestand kan lezen en samenvattingen kan genereren, zoals:\n   - Totaal aantal tokens per dag\n   - Totaal aantal tokens per maand\n   - Gemiddeld gebruik per call\n\n4. **Visualisatie**: Overweeg om grafieken of diagrammen te maken om trends in tokengebruik visueel weer te geven.\n\nAls je hulp nodig hebt bij een specifieke stap, laat het me weten!",
+      "timestamp": "2025-08-31T20:19:49.650Z"
+    },
+    {
+      "role": "user",
+      "message": "/chat test",
+      "timestamp": "2025-08-31T20:28:09.202Z"
+    },
+    {
+      "role": "ai",
+      "message": "Test ontvangen. Hoe kan ik je helpen?",
+      "timestamp": "2025-08-31T20:28:17.045Z"
+    },
+    {
+      "role": "user",
+      "message": "/key",
+      "timestamp": "2025-09-01T08:30:32.536Z"
+    }
+  ]
+}

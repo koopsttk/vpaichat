@@ -1,0 +1,36 @@
+{
+  "sessionId": "0ef183e1-13b2-449a-bc86-c795300d451e",
+  "created": "2025-08-31T21:40:53.218Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "ik zoek een spreekgestoelte voor een kerk",
+      "timestamp": "2025-08-31T21:40:53.225Z"
+    },
+    {
+      "role": "user",
+      "message": "in blauw",
+      "timestamp": "2025-09-01T08:40:13.000Z"
+    },
+    {
+      "role": "ai",
+      "message": "Heeft u specifieke afmetingen of extra functies in gedachten voor het spreekgestoelte?",
+      "timestamp": "2025-09-01T08:40:14.283Z"
+    },
+    {
+      "role": "user",
+      "message": "/help",
+      "timestamp": "2025-09-01T08:40:41.256Z"
+    },
+    {
+      "role": "user",
+      "message": "/starobject",
+      "timestamp": "2025-09-01T08:40:49.128Z"
+    },
+    {
+      "role": "user",
+      "message": "/startobject",
+      "timestamp": "2025-09-01T08:40:54.144Z"
+    }
+  ]
+}

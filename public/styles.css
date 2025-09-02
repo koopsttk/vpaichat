@@ -193,6 +193,21 @@ body {
   flex-direction: column;
   height: 100vh;
 }
+/* Link color overrides (make links in messages lighter on dark theme) */
+a, .msg-content a {
+  color: #9ad6ff; /* softer, lighter blue */
+  text-decoration: underline;
+}
+a:hover, .msg-content a:hover {
+  color: #dff6ff;
+}
+/* Light theme should keep its own blue for contrast */
+.light-theme a, .light-theme .msg-content a {
+  color: #0b93f6;
+}
+.light-theme a:hover, .light-theme .msg-content a:hover {
+  color: #1a9bff;
+}
 
 header {
   padding: 12px 16px;

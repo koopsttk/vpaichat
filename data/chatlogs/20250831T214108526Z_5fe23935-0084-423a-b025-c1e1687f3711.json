@@ -1,0 +1,36 @@
+{
+  "sessionId": "5fe23935-0084-423a-b025-c1e1687f3711",
+  "created": "2025-08-31T21:41:08.526Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "waarom zijn de bananen krom?",
+      "timestamp": "2025-08-31T21:41:16.161Z"
+    },
+    {
+      "role": "ai",
+      "message": "Bananen zijn krom omdat ze groeien in een proces dat \"negatieve geotropisme\" wordt genoemd. Terwijl de banaan aan de plant groeit, buigt hij zich naar het licht toe, wat resulteert in de kromme vorm.",
+      "timestamp": "2025-08-31T21:41:17.520Z"
+    },
+    {
+      "role": "user",
+      "message": "/help",
+      "timestamp": "2025-08-31T21:41:24.098Z"
+    },
+    {
+      "role": "user",
+      "message": "/startobject",
+      "timestamp": "2025-08-31T21:41:35.074Z"
+    },
+    {
+      "role": "user",
+      "message": "/KEY",
+      "timestamp": "2025-09-01T13:19:56.779Z"
+    },
+    {
+      "role": "user",
+      "message": "/key",
+      "timestamp": "2025-09-01T13:20:01.354Z"
+    }
+  ]
+}

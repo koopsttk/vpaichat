@@ -20,6 +20,10 @@
     "allow_commands": true,
     "enable_forbidden_words": true
   },
+  "ai": {
+    "default_model": "gpt-4o-mini",
+    "temperature": 0.3
+  },
   "development": {
     "dev.openDevTools": true
   }
