@@ -1,3 +1,7 @@
+// Compatibility stub: re-export from src/ssot
+// REMOVED: start-object-loader moved to src/ssot/start-object-loader.js
+// For history, see src/core/start-object-loader.js.removed
+module.exports = undefined;
 /**
  * VPAICore – src/core/startObject.js
  * Rol: Core: resolve en lees startobject via ini.json (JSON-first)

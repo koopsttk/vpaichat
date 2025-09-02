@@ -13,7 +13,7 @@
 // src/main.js
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { registerIpc } = require("./ipc/register-ipc");
-const { readStartObject } = require("./core/start-object-loader");
+const { readStartObject } = require("./ssot/start-object-loader");
 const { createMainWindow } = require("./ui/main-window");
 const { loadApiKey } = require("./infra/api-key-store");
 const { createKeyWindow } = require("./ui/key-window");

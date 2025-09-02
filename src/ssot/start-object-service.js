@@ -1,41 +1,25 @@
-// REMOVED: start-object-service moved to src/ssot/start-object-service.js
-// For history, see src/core/start-object-service.js.removed
-module.exports = undefined;
 /**
- * VPAICore – src/core/startObjectService.js
+ * VPAICore – src/ssot/start-object-service.js
  * Rol: Core service: startobject CRUD/backup/restore
- * Koppelingen: startObject.js, utils/fileHelpers
- * Belangrijk: —
- *
- * Conventies:
- * - Houd main.js dun (alleen IPC doorverwijzers).
- * - Startobject is SSOT-regiekamer; pad hard uit init/ini.json of config/ini.json.
- * - AI seed: compacte index + startobject in system prompt (renderer of service).
  */
 
-// src/core/startObjectService.js
 const fs = require("fs");
 const path = require("path");
 
 const { readStartObject, resolveStartObjectPath } = require("./start-object-loader");
 const { utcStampTight, ensureDir, writeJSONAtomic, readJSON, writeJSON } = require("../utils/file-helpers");
-const { getConfig, getAppConfig } = require("./config-service");
+const { getConfig, getAppConfig } = require("../core/config-service");
 
-/** dataDir(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function dataDir() {
   const cfg = getConfig();
   return cfg.dataDir;
 }
 
-/** Lees actuele startobject + pad. */
-/** read(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function read() {
   const { obj, soPath } = readStartObject();
   return { obj, soPath };
 }
 
-/** Update met .bak + history, valideert rol, zet timestamps. */
-/** update(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function update(json) {
   if (!json || typeof json !== "object") throw new Error("Ongeldige JSON.");
   if (json.rol !== "startobject") throw new Error("Veld 'rol' moet 'startobject' zijn.");
@@ -59,8 +43,6 @@ function update(json) {
   return { soPath, obj: json, backup: { bak: soPath + ".bak", history: histFile } };
 }
 
-/** Lijst alle history-backups. */
-/** listBackups(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function listBackups() {
   const soPath = resolveStartObjectPath();
   const histRoot = path.join(dataDir(), ".history", "startobject", path.basename(soPath, ".json"));
@@ -72,8 +54,6 @@ function listBackups() {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** Zet laatste of specifiek backup‑bestand terug. */
-/** restore(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function restore(which = "last") {
   const soPath = resolveStartObjectPath();
   let src = which;
@@ -91,8 +71,6 @@ function restore(which = "last") {
   return { soPath, obj: content, restoredFrom: src };
 }
 
-/** Handige helpers voor renderer */
-/** getStartObject(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function getStartObject() {
   const { obj } = readStartObject();
   return obj;

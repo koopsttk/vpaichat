@@ -1,4 +1,4 @@
-# VPAICore Blauwdruk (v0.3 – August 2025)
+# VPAICore Blauwdruk (v0.4 – September 2025)
 
 ## 📖 Samenvatting
 Dit document is de **regisseur** van VPAICore.  
@@ -9,10 +9,10 @@ De Blauwdruk fungeert als **Single Source of Truth (SSOT)**: alle andere documen
 
 ## 📂 Projectstructuur
 
-- **/src** → broncode (JavaScript/Electron), alleen implementatie + korte inline comments.  
+- **/src** → broncode (JavaScript/Electron), implementatie + korte inline comments.  
 - **/docs** → documentatie, SSOT met detailuitleg en conventies.  
-- **/data** → JSON objecten (o.a. startobject), runtime data.  
-- **/config** → configuratie (o.a. `ini.json`).  
+- **/data** → JSON objecten (startobject, templates, instances, indexen).  
+- **/config** → configuratie (`ini.json`).  
 - **/public** → frontend bestanden (`renderer.js`, UI).  
 
 Distributiepakketten:
@@ -43,8 +43,8 @@ De detaildocumentatie staat in [`docs/`](docs/):
 ## ⚙️ Kernprincipes
 
 1. **SSOT** – Data en documentatie worden altijd centraal beheerd.  
-2. **Startobject** – Regelt rol, titel/omschrijving en context. Staat in `/data`, pad vastgelegd via `/init/ini.json`.  
-3. **Separation of concerns** – Main-process alleen doorverwijzingen; services regelen de logica.  
+2. **Startobject** – Regelt rol, titel/omschrijving en context. Staat in `/data`, pad vastgelegd via `/config/ini.json`.  
+3. **Separation of concerns** – Main-process/core alleen doorverwijzingen; services regelen de logica.  
 4. **Transparantie** – Documentatie legt alles uit voor zowel mens als AI.  
 
 ---
@@ -68,18 +68,31 @@ De detaildocumentatie staat in [`docs/`](docs/):
 
 ---
 
+## ➕ Stap 2 – SSOT Minimal Spec (natuurlijke taal)
+
+1. **MainParameters (vast blok in elk object):** `id` (GUID), `createdAt` (ISO), `updatedAt` (ISO), `schema` (bijv. v0.4), `role` (type), `aliases` (optioneel).  
+2. **Templates per type:** definieert velden/regels; ontbreekt een template, dan wordt het **eerst aangemaakt** (append‑only uitbreiden bij nieuwe velden).  
+3. **Instance-opbouw:** AI bouwt object op basis van template; ontbrekende verplichte velden worden uitgevraagd.  
+4. **Natuurlijke taal:** gebruiker typt “maak een notitie/adres …”; AI orkestreert, SSOT bewaart.  
+5. **Opslag & indexen:** alles in `/data/`; **gescheiden indexen** → `index/templates.index.json` (templates) en `index/instances.index.json` (instances; sharden mogelijk).  
+6. **Startobject als regisseur:** verwijst minimaal naar `templates.index.json` (en optioneel naar het instances‑manifest). UI/AI kennen **geen paden**; alleen alias/id via indexen.  
+
+---
+
 ## 📝 Changelog
 
-- **v0.3 – August 2025**
+- **v0.4 – September 2025**  
+  - Nieuwe sectie *Stap 2 – SSOT Minimal Spec* toegevoegd (natuurlijke taal).  
+  - Startobject pad gecorrigeerd naar `/config/ini.json`.  
+- **v0.3 – August 2025**  
   - Structuur verbeterd en overzichtelijke secties toegevoegd.  
   - Samenvatting bovenaan toegevoegd.  
   - Documentatie-links samengevoegd en verduidelijkt.  
-
-- **v0.2 – August 2025**
+- **v0.2 – August 2025**  
   - Sectie *Documentatie & Snelkoppelingen* toegevoegd.  
   - Nieuwe docs toegevoegd: CHANGELOG.md, CONVENTIONS.md, PROMPTING.md  
   - Versie-header bovenaan Blauwdruk.  
   - Roadmap, Architectuur en Config-documentatie geïntegreerd.  
-
-- **v0.1 – July 2025**
+- **v0.1 – July 2025**  
   - Eerste versie van de Blauwdruk opgesteld.  
+

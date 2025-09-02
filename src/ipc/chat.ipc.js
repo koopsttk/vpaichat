@@ -13,7 +13,7 @@
 // src/ipc/chat.ipc.js
 const { BrowserWindow, ipcMain } = require("electron");
 const { getOpenAIClient } = require("../infra/openai-client");
-const { readStartObject } = require("../core/start-object-loader");
+const { readStartObject } = require("../ssot/start-object-loader");
 
 /** registerChatIpc(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
 function registerChatIpc(ipcMain) {

@@ -12,7 +12,8 @@
 
 // src/ipc/startobject.ipc.js
 const { BrowserWindow } = require("electron");
-const svc = require("../core/start-object-service.js");
+// Prefer explicit ssot path; core/start-object-service.js remains as compatibility stub
+const svc = require("../ssot/start-object-service.js");
 
 /** UI helpers */
 /** sendCoreMeta(): functionele rol en contract. Zie Blauwdruk/ARCHITECTURE.md. */
