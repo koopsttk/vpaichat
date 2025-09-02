@@ -16,8 +16,13 @@ const api = {
     ipcRenderer.on("core:setTitle", (_evt, data) => cb?.(data)),
   onSetDescription: (cb) =>
     ipcRenderer.on("core:setDescription", (_evt, data) => cb?.(data)),
-  aiChat: (messages, model = "gpt-4o-mini", system) =>
-    ipcRenderer.invoke("ai:chat", { messages, model, system }),
+  aiChat: async (messages, _model, system) => {
+    // Always use the configured model from app config (single source of truth)
+    const cfg = await ipcRenderer.invoke("core:getAppConfig");
+    const useModel = cfg?.model;
+    if (!useModel) return { ok: false, error: "ai_model_not_configured" };
+    return ipcRenderer.invoke("ai:chat", { messages, model: useModel, system });
+  },
   onAiChunk: (cb) =>
     ipcRenderer.on("ai:chunk", (_evt, data) => cb?.(data)),
   onWebsearchResults: (cb) =>
@@ -45,6 +50,7 @@ const api = {
   listChatlogs: () => ipcRenderer.invoke('chatlog:list'),
   deleteChatlog: (filename) => ipcRenderer.invoke('chatlog:delete', filename),
   openChatlog: (filename) => ipcRenderer.invoke('chatlog:open', filename),
+  searchChatlogs: (query, opts) => ipcRenderer.invoke('chatlog:search', query, opts),
   renameChatlogTitle: (...args) => ipcRenderer.invoke('renameChatlogTitle', ...args),
   openKeyPage: () => ipcRenderer.invoke('/key')
 };

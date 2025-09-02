@@ -1,0 +1,16 @@
+{
+  "sessionId": "75e4eb88-a1d0-4db8-b527-ebff30479e93",
+  "created": "2025-09-02T15:40:35.099Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "test",
+      "timestamp": "2025-09-02T15:40:35.106Z"
+    },
+    {
+      "role": "ai",
+      "message": "Test ontvangen. Hoe kan ik je helpen?",
+      "timestamp": "2025-09-02T15:40:35.902Z"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "sessionId": "d7e8209b-6a3a-4a0a-89ac-cd8c151b6cb9",
+  "created": "2025-09-01T08:38:46.015Z",
+  "log": [
+    {
+      "role": "user",
+      "message": "waar zit leo music",
+      "timestamp": "2025-09-01T08:38:57.793Z"
+    },
+    {
+      "role": "ai",
+      "message": "Kun je specificeren waar je naar op zoek bent? Bedoel je een locatie, een website of iets anders met betrekking tot Leo Music?",
+      "timestamp": "2025-09-01T08:38:59.346Z"
+    },
+    {
+      "role": "user",
+      "message": "zoek leo music in stadskanaal",
+      "timestamp": "2025-09-01T08:39:17.024Z"
+    }
+  ]
+}

@@ -66,6 +66,55 @@ export async function handleUserInput(rawText) {
     return;
   }
 
+  // Speciale command: /chat <zoekterm> — zoek in chatlogs en geef context aan AI
+  if (userMsg.startsWith('/chat ')) {
+    const q = userMsg.slice(6).trim();
+    if (!q) {
+      addMessage('ai', '❌ Geef een zoekterm op: /chat <zoekterm>');
+      return;
+    }
+    // Vraag de backend om zoekresultaten uit chatlogs
+    if (!window.api?.searchChatlogs) {
+      addMessage('ai', '❌ Deze build ondersteunt geen chatlog-zoeken.');
+      return;
+    }
+    try {
+      addMessage('ai', `🔎 Zoeken in chatlogs naar: "${q}" ...`);
+      const res = await window.api.searchChatlogs(q, { maxResults: 6, contextChars: 300 });
+      if (!res || res.ok !== true) {
+        addMessage('ai', '❌ Fout bij zoeken in chatlogs: ' + (res?.error || 'onbekend'));
+        return;
+      }
+      if (!Array.isArray(res.results) || res.results.length === 0) {
+        addMessage('ai', '🔍 Geen matches gevonden in chatlogs.');
+        return;
+      }
+      // Toon korte samenvatting van resultaten aan de gebruiker
+      const lines = res.results.map((r, i) => `${i+1}. [${r.filename}] (${r.role || 'n.v.t.'}) ${r.timestamp || ''}\n${r.snippet}`);
+      addMessage('ai', '🔎 Matches gevonden:\n' + lines.join('\n\n'));
+
+      // Voeg de snippets toe als system context en stuur naar AI
+      const systemCtx = 'Chatlog search results (top ' + res.results.length + '):\n' + res.results.map((r, i) => `[${i+1}] file=${r.filename} role=${r.role} time=${r.timestamp}\n${r.snippet}`).join('\n\n');
+      // Bouw messages en roep aiChat aan
+      const msgs = [];
+      const SYSTEM_PROMPT = getSystemPrompt();
+      if (SYSTEM_PROMPT) msgs.push({ role: 'system', content: SYSTEM_PROMPT });
+      msgs.push({ role: 'system', content: systemCtx });
+      msgs.push({ role: 'user', content: q });
+
+      const fn = API().aiChat;
+      if (typeof fn !== 'function') {
+        addMessage('ai', '❌ aiChat() niet beschikbaar');
+        return;
+      }
+  // Let preload/main provide the configured default model when not specified
+  await fn(msgs);
+    } catch (err) {
+      addMessage('ai', '❌ Fout bij zoeken: ' + (err?.message || String(err)));
+    }
+    return;
+  }
+
   // Haal context op uit app.js (indien beschikbaar)
   let contextMsgs = [];
   if (typeof window.getActiveChatContext === 'function') {
@@ -242,7 +291,7 @@ export async function handleUserInput(rawText) {
     // Voeg huidige user prompt toe
     msgs.push({ role: "user", content: userMsg });
 
-    const res = await fn(msgs, "gpt-4o-mini");
+  const res = await fn(msgs);
     if (res?.error) {
       lastAiMsgEl = addMessage("ai", "❌ " + res.error);
       toast(res.error, "error");

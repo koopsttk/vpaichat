@@ -54,6 +54,49 @@ function registerChatlogIpc(ipcMain) {
         }
         return null;
     });
+
+    // Zoek in alle chatlogs naar een query (veilige, server-side search)
+    ipcMain.handle('chatlog:search', async (event, query, opts = {}) => {
+        try {
+            if (!query || typeof query !== 'string' || !query.trim()) return { ok: false, error: 'empty_query', results: [] };
+            const maxResults = parseInt(opts.maxResults || 10, 10) || 10;
+            const contextChars = parseInt(opts.contextChars || 200, 10) || 200;
+            const q = query.toLowerCase();
+            const config = getConfig();
+            const chatlogDir = path.join(config.dataDir, 'chatlogs');
+            if (!fs.existsSync(chatlogDir)) return { ok: true, results: [] };
+            const files = fs.readdirSync(chatlogDir).filter(f => f.endsWith('.json'));
+            const matches = [];
+            for (const filename of files) {
+                const filePath = path.join(chatlogDir, filename);
+                let data;
+                try {
+                    data = require('../utils/file-helpers').readJSON(filePath);
+                } catch (e) {
+                    // skip corrupt files
+                    continue;
+                }
+                if (!data || !Array.isArray(data.log)) continue;
+                for (const entry of data.log) {
+                    if (!entry || !entry.message) continue;
+                    const msg = String(entry.message);
+                    if (msg.toLowerCase().includes(q)) {
+                        // Create a short snippet around the match
+                        const idx = msg.toLowerCase().indexOf(q);
+                        const start = Math.max(0, idx - Math.floor(contextChars / 2));
+                        const end = Math.min(msg.length, start + contextChars);
+                        const snippet = (start > 0 ? '…' : '') + msg.slice(start, end) + (end < msg.length ? '…' : '');
+                        matches.push({ filename, role: entry.role || null, timestamp: entry.timestamp || null, message: msg, snippet });
+                        if (matches.length >= maxResults) break;
+                    }
+                }
+                if (matches.length >= maxResults) break;
+            }
+            return { ok: true, results: matches };
+        } catch (err) {
+            return { ok: false, error: err?.message || String(err), results: [] };
+        }
+    });
 }
 
 module.exports = { registerChatlogIpc };

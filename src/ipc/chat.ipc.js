@@ -21,7 +21,9 @@ function registerChatIpc(ipcMain) {
   try { ipcMain.removeHandler("ai:chat"); } catch (_) {}
 
   // IPC: 'ai:chat' → doorverwijzer naar service
-  ipcMain.handle("ai:chat", async (_evt, { messages = [], model = "gpt-4o-mini", system }) => {
+  const { getAppConfig } = require('../core/config-service');
+
+  ipcMain.handle("ai:chat", async (_evt, { messages = [], model, system }) => {
     const win = BrowserWindow.getAllWindows()[0];
     try {
       const client = getOpenAIClient();
@@ -109,12 +111,30 @@ function registerChatIpc(ipcMain) {
         console.warn('[ai:chat] intent detection failed:', detectErr?.message || detectErr);
       }
 
+      // Enforce configured model from single source of truth
+      let appCfg;
+      try {
+        appCfg = getAppConfig();
+      } catch (cfgErr) {
+        console.error('[ai:chat] app config missing or invalid:', cfgErr?.message || cfgErr);
+        if (win) win.webContents.send("ai:chunk", "⚠️ AI-config niet ingesteld.");
+        return { ok: false, error: 'ai_config_missing' };
+      }
+
+      if (!appCfg?.model) {
+        if (win) win.webContents.send("ai:chunk", "⚠️ AI-model niet geconfigureerd.");
+        return { ok: false, error: 'ai_model_not_configured' };
+      }
+
+      model = appCfg.model;
+      const temperature = startObj?.config?.aiTemperature ?? appCfg?.aiTemperature ?? 0.3;
+
       let result;
       try {
         result = await client.chat.completions.create({
           model,
           messages: fullMessages,
-          temperature: startObj?.config?.aiTemperature ?? 0.3,
+          temperature,
         });
       } catch (apiErr) {
         console.error('[ai:chat] OpenAI request failed:', apiErr?.message || apiErr);

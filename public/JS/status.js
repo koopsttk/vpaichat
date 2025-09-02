@@ -21,7 +21,7 @@ export async function refreshStatus() {
     console.log("AppConfig in status.js:", cfg);
     const modelEl = document.getElementById("st-model");
     const keyEl   = document.getElementById("st-key");
-    if (modelEl) modelEl.textContent = `model: ${cfg?.model || "gpt-4o-mini"}`;
+  if (modelEl) modelEl.textContent = `model: ${cfg?.model || '–'}`;
     // if (keyEl) keyEl.textContent = `key: ${cfg?.apiKey ? "✔" : "?"}`; // <-- UITZETTEN OF VERWIJDEREN
   } catch {
     const modelEl = document.getElementById("st-model");

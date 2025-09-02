@@ -112,6 +112,18 @@ function getAppConfig() {
   const blockRepeatedChars = asBoolean(firstDefined('chat.block_repeated_chars', 'block_repeated_chars'), true);
   const maxWordLength = asNumber(firstDefined('chat.max_word_length', 'max_word_length'), 30);
   const allowCommands = asBoolean(firstDefined('chat.allow_commands', 'allow_commands'), true);
+  // AI related defaults
+  const defaultModel = firstDefined('ai.default_model', 'defaultModel', 'model');
+  if (!defaultModel) {
+    throw new Error("AI model not configured: please set 'ai.default_model' in config/ini.json");
+  }
+  const aiTemperature = (function () {
+    const v = firstDefined('ai.temperature', 'ai.temperature', 'temperature');
+    if (typeof v === 'undefined') return 0.3;
+    if (typeof v === 'number') return v;
+    const n = parseFloat(String(v));
+    return Number.isNaN(n) ? 0.3 : n;
+  })();
 
   return {
     maxInputLength,
@@ -126,6 +138,8 @@ function getAppConfig() {
     maxWordLength,
     allowCommands,
     enableForbiddenWords,
+  model: defaultModel,
+  aiTemperature,
   };
 }
 

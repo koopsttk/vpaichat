@@ -1,3 +1,4 @@
 @echo off
-echo werkt
+echo Installing dependencies...
+call npm install
 pause
